@@ -1,23 +1,26 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+@push('css')
+    <style>
+        .filter{
+            margin-top:100px;
+            text-align: center;
+        }
+        .filter h3{
+            padding-bottom: 20px
+        }
+    </style>
+@endpush
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
+@section('sidebar')
+<div class="filter">
+    <h3>Select Tags : </h3>
+    <div class="tags">
+        <div class="checkbox">
+            <input type="checkbox" id="chekcbox1" checked="">
+            <label for="chekcbox1"><span class="checkbox-icon"></span> Checkbox</label>
         </div>
     </div>
 </div>
+   
 @endsection
