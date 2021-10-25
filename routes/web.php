@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -13,10 +14,74 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('welcome');
 });
 
-Auth::routes();
 
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('register','Auth\RegisterController@createUser')->name('register');
+Route::post('login','Auth\loginController@login')->name('login');
+Route::post('reset-password','Auth\loginController@changePassword')->name('reset-password');
+//Auth::routes();
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('logout','Auth\loginController@Logout')->name('logout');
+    Route::get('home', 'HomeController@index')->name('home');
+
+});
+
+Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], function (){
+    Route::get('dashboard','Admin\DashboardController@index')->name('dashboard');
+
+ /*   
+    Route::get('settings','Admin\SettingsController@index')->name('settings');
+    Route::put('profile-update','Admin\SettingsController@updateProfile')->name('profile.update');
+    Route::put('password-update','Admin\SettingsController@updatePassword')->name('password.update');
+
+    Route::resource('post','Admin\PostController');
+
+
+    Route::get('authors','Admin\AuthorController@index')->name('author.index');
+    Route::delete('authors/{id}','Admin\AuthorController@destroy')->name('author.destroy');
+
+    Route::get('comments','Admin\CommentController@index')->name('comment.index');
+    Route::delete('comments/{id}','Admin\CommentController@destroy')->name('comment.destroy');
+
+    Route::get('/relation','Admin\RelationController@index')->name('relation.index');
+    Route::post('/relation','Admin\RelationController@create')->name('relation.create');
+    Route::delete('/relation/{id}','Admin\RelationController@destroy')->name('relation.destroy');
+
+    Route::get('/follower','Admin\followerController@index')->name('follower.index');
+    Route::post('/follower','Admin\followerController@create')->name('follower.create');
+    Route::delete('/follower/{id}','Admin\followerController@destroy')->name('follower.destroy');
+*/
+   // Route::get('/following','Admin\followerController@foll')->name('follower.index');
+
+});
+
+Route::group(['as'=>'auther.','prefix'=>'auther','middleware'=>['auth','auther']], function (){
+    Route::get('profile','Auther\ProfileController@index')->name('profile');
+/*    
+    Route::get('settings','Auther\SettingsController@index')->name('settings');
+    Route::put('profile-update','Auther\SettingsController@updateProfile')->name('profile.update');
+    Route::put('password-update','Auther\SettingsController@updatePassword')->name('password.update');
+
+    Route::resource('post','Auther\PostController');
+
+
+    Route::get('comments','Auther\CommentController@index')->name('comment.index');
+    Route::delete('comments/{id}','Auther\CommentController@destroy')->name('comment.destroy');
+
+    Route::get('/relation','Auther\RelationController@index')->name('relation.index');
+    Route::post('/relation','Auther\RelationController@create')->name('relation.create');
+    Route::delete('/relation/{id}','Auther\RelationController@destroy')->name('relation.destroy');
+
+    Route::get('/follower','Auther\followerController@index')->name('follower.index');
+    Route::post('/follower','Auther\followerController@create')->name('follower.create');
+    Route::delete('/follower/{id}','Auther\followerController@destroy')->name('follower.destroy');
+
+    */
+});

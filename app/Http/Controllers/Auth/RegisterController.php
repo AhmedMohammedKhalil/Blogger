@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -29,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo;
 
     /**
      * Create a new controller instance.
@@ -41,33 +43,35 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+    
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+
+    public function createUser(Request $request){
+
+
+
+            //return response()->json(['data' => "ahmed"]);
+            
+            $data = Validator::make($request->all(), [
+                'name' => ['required', 'string', 'max:255'],
+                'email_register' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+                'password_register' => ['required', 'string', 'min:8'],
+                'password_repeat_register' => ['required','string','min:8', 'same:password_register']
+            ]);
+            if($data->fails()) {
+                return response()->json([
+                    'errors'=> $data->errors()
+                ]);
+            } else {
+                User::create([
+                    'name' => $request['name'],
+                    'email' => $request['email_register'],                
+                    'password' => Hash::make($request['password_register']), 
+                ]);
+                Auth::attempt(['email' => $request['email_register'], 'password' => $request['password_register']]);
+            }
+            
+        
+        
     }
 }

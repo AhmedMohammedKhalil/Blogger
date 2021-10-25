@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="{{asset('images/logo-favicon.png')}}" type="image/x-icon">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>@yield('title'){{Config('app.name','Blogs')}}</title>
 
         <!-- Fonts -->
@@ -12,10 +13,7 @@
         <link rel="stylesheet" href={{asset('css/style.css')}}>
         <link rel="stylesheet" href="{{asset('css/colors/blue.css')}}">
         <style>
-            div.parent {
-                position: relative;
-                height:100vh
-            }
+            
             div.content {
                 background-image: url("{{asset('images/bg.png')}}");
                 background-size:cover;
@@ -40,11 +38,7 @@
             button {
                 width:100% !important
             }
-            div#footer {
-                position: absolute;
-                bottom: 0px;
-                width: 100vw;
-            }
+           
 
         </style>
     </head>
@@ -62,15 +56,27 @@
                                 </div>
                                     
                                 <!-- Form -->
-                                <form method="post" id="login-form">
+                                <form method="post" action="#" id="login-form">
+
                                     <div class="input-with-icon-left">
                                         <i class="icon-material-baseline-mail-outline"></i>
-                                        <input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required/>
+                                        <input type="email" class="input-email with-border{{ $errors->has('email_login') ? ' is-invalid' : '' }}" name="email_login" id="emailaddress"  placeholder="Email Address" value="{{ old('email_login') }}" required autofocus/>
+
+                                        @if ($errors->has('email_login'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('email_login') }}</strong>
+                                        </span>
+                                        @endif
                                     </div>
                 
                                     <div class="input-with-icon-left">
                                         <i class="icon-material-outline-lock"></i>
-                                        <input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
+                                        <input type="password" class="input-text with-border{{ $errors->has('password_login') ? ' is-invalid' : '' }}" name="password_login" id="password" placeholder="Password" required/>
+                                        @if ($errors->has('password_login'))
+                                            <span class="invalid-feedback">
+                                            <strong>{{ $errors->first('password_login') }}</strong>
+                                            </span>
+                                        @endif
                                     </div>
                                     <a href="#" class="forgot-password">Forgot Password?</a>
                                 </form>
@@ -89,25 +95,27 @@
                                 
                                     
                                 <!-- Form -->
-                                <form method="post" id="register-account-form">
-                                    <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
-                                        <i class="icon-material-outline-lock"></i>
-                                        <input type="password" class="input-text with-border" name="password-register" id="password-register" placeholder="Old Password" required/>
+                                <form method="post" action="#" id="reset-password">
+                                    <div class="input-with-icon-left">
+                                        <i class="icon-material-baseline-mail-outline"></i>
+                                        <input type="email" class="input-email with-border{{ $errors->has('email_reset') ? ' is-invalid' : '' }}" name="email_reset" id="emailaddress_reset"  placeholder="Email Address" value="{{ old('email_reset') }}" required autofocus/>
+                                    
                                     </div>
 
                                     <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
                                         <i class="icon-material-outline-lock"></i>
-                                        <input type="password" class="input-text with-border" name="password-register" id="password-register" placeholder="New Password" required/>
+                                        <input type="password" class="input-text with-border{{ $errors->has('password_reset') ? ' is-invalid' : '' }}" name="password_reset" id="password_reset" placeholder="New Password" required/>
+                                        
                                     </div>
                 
                                     <div class="input-with-icon-left">
                                         <i class="icon-material-outline-lock"></i>
-                                        <input type="password" class="input-text with-border" name="password-repeat-register" id="password-repeat-register" placeholder="Repeat Password" required/>
+                                        <input type="password" class="input-text with-border{{ $errors->has('password_repeat_reset') ? ' is-invalid' : '' }}" name="password_repeat_reset" id="password_repeat_reset" placeholder="Repeat Password" required/>
                                     </div>
                                 </form>
                                 
                                 <!-- Button -->
-                                <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="login-form">Reset <i class="icon-material-outline-arrow-right-alt"></i></button>
+                                <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="reset-password">Reset <i class="icon-material-outline-arrow-right-alt"></i></button>
 
                             </div>
                             <div class="login-register-page register">
@@ -120,25 +128,33 @@
                                 
                                     
                                 <!-- Form -->
-                                <form method="post" id="register-account-form">
+                                <form method="POST" action="#" id="register-form">
                                     <div class="input-with-icon-left">
                                         <i class="icon-material-baseline-mail-outline"></i>
-                                        <input type="text" class="input-text with-border" name="emailaddress-register" id="emailaddress-register" placeholder="Email Address" required/>
+                                        <input type="text" class="input-text with-border{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="name" placeholder="Name" value="{{ old('name') }}" required autofocus/>
+                                        
+                                    </div>
+                                    <div class="input-with-icon-left">
+                                        <i class="icon-material-baseline-mail-outline"></i>
+                                        <input type="email" class="input-text with-border{{ $errors->has('email_register') ? ' is-invalid' : '' }}" name="email_register" id="email_register" placeholder="Email Address" value="{{ old('email_register') }}" required/>
+                                        
                                     </div>
                 
                                     <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
                                         <i class="icon-material-outline-lock"></i>
-                                        <input type="password" class="input-text with-border" name="password-register" id="password-register" placeholder="Password" required/>
+                                        <input type="password" class="input-text with-border{{ $errors->has('password_register') ? ' is-invalid' : '' }}" name="password_register" id="password_register" placeholder="Password" required/>
+                                       
                                     </div>
                 
-                                    <div class="input-with-icon-left">
+                                    <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
                                         <i class="icon-material-outline-lock"></i>
-                                        <input type="password" class="input-text with-border" name="password-repeat-register" id="password-repeat-register" placeholder="Repeat Password" required/>
+                                        <input type="password" class="input-text with-border{{ $errors->has('password_repeat_register') ? ' is-invalid' : '' }}" name='password_repeat_register' id='password_repeat_register' placeholder="Repeat Password" required/>
+                                       
                                     </div>
                                 </form>
                                 
                                 <!-- Button -->
-                                <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="login-form">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
+                                <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="register-form">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
 
                             </div>
 
@@ -155,7 +171,7 @@
         </div>
         
         <!-- Footer Copyrights -->
-
+        <script src="{{asset('js/app.js')}}"></script>
         <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
         <script src="{{asset('js/jquery-migrate-3.0.0.min.js')}}"></script>
         <script src="{{asset('js/mmenu.min.js')}}"></script>
@@ -171,6 +187,7 @@
         <script src="{{asset('js/custom.js')}}"></script>
 
         <script>
+
             $('a').click(function (ev) {
                 ev.preventDefault();
 
@@ -187,7 +204,107 @@
             $('.forgot-password').click(function () {
                 $('.reset-password').show();
                 $('.login').hide();
-            })        
+            })  
+
+            $(document).ready(() => {
+                function messageError(errorName,message) {
+                    $('input[name='+errorName+']').addClass('is-invalid');
+                        $('input[name='+errorName+']').parent().append(
+                            '<span id='+errorName+' class="invalid-feedback d-block px-2" role="alert">'+
+                                    '<strong>'+message+'</strong>'+
+                            '</span>'
+                    );
+                } 
+
+                $('#register-form').submit((e) => {
+                    e.preventDefault();
+                    axios.post('{{ route('register') }}',$(e.target).serialize())
+                    .then((res) => {
+                        console.log(res)
+                        var errors = res.data.errors;
+                        if(errors) {
+                            console.log(errors)
+                            if(errors.name){
+                                messageError('name',errors.name[0]);
+                            }
+                            if(errors.email_register){
+                                messageError('email_register',errors.email_register[0]);
+                            }
+                            
+                            if(errors.password_register){
+                                messageError('password_register',errors.password_register[0]);
+                            }
+                            if(errors.password_repeat_register){
+                                messageError('password_repeat_register',errors.password_repeat_register[0]);
+                            }
+                        }else {
+                            window.location.replace("{{route('home')}}");
+                        }
+                    })
+                })
+
+                $('#login-form').submit((e) => {
+                    e.preventDefault();
+                    axios.post('{{ route('login') }}',$(e.target).serialize())
+                    .then((res) => {
+                        var errors = res.data.errors;
+                        if(errors) {
+                            if(errors.email_login){
+                                messageError('email_login',errors.email_login[0]);
+                            }
+                            
+                            if(errors.password_login){
+                                messageError('password_login',errors.password_login[0]);
+                            }
+                            if(errors.password_repeat_login){
+                                messageError('password_repeat_login',errors.password_repeat_login[0]);
+                            }
+                        }else {
+                            
+                                window.location.replace("{{route('home')}}");
+
+                            //hostwindow.location.replace("{{route('auther.profile')}}");
+                        }
+                    })
+                })
+
+                $('#reset-password').submit((e) => {
+                    e.preventDefault();
+                    axios.post('{{ route('reset-password') }}',$(e.target).serialize())
+                    .then((res) => {
+                        var errors = res.data.errors;
+                        if(errors) {
+                            if(errors.email_reset){
+                                messageError('email_reset',errors.email_reset[0]);
+                            }
+                            
+                            if(errors.password_reset){
+                                messageError('password_reset',errors.password_reset[0]);
+                            }
+                            if(errors.password_repeat_reset){
+                                messageError('password_repeat_reset',errors.password_repeat_reset[0]);
+                            }
+                        }else {
+                                window.location.replace("{{route('welcome')}}");
+                                Snackbar.show({
+                                    text: 'Password Successfuly changed',
+                                    pos : 'bottom-left'
+                                });
+                        }
+                    })
+                })
+                $('input').on('focus',(e) => {
+                    var input = $(e.target)
+                    if(input.hasClass('is-invalid')) {
+                        input.removeClass('is-invalid');
+                        //$('#'+input.attr('name')).remove();
+                    }
+                    if($('span.invalid-feedback').length) {
+                        $('span.invalid-feedback').remove();
+                    }
+                })  
+
+            })  
             </script>
     </body>
 </html>

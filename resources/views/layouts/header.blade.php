@@ -129,7 +129,7 @@
 								<div class="user-details">
 									<div class="user-avatar"><img src="images/user-avatar-small-01.jpg" alt=""></div>
 									<div class="user-name">
-										Tom Smith <span>Freelancer</span>
+										{{Auth::user()->name}}
 									</div>
 								</div>
 								
@@ -137,9 +137,12 @@
 						</div>
 						
 						<ul class="user-menu-small-nav">
-							
-							<li><a href=""><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-							<li><a href=""><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							@if (Auth::user()->role->id == "2")
+								<li><a href="{{route('auther.profile')}}"><i class="icon-material-outline-dashboard"></i>Profile</a></li>
+							@else
+								<li><a href="{{route('admin.dashboard')}}"><i class="icon-material-outline-dashboard"></i>Dashboard</a></li>
+							@endif
+							<li><a href="{{route('logout')}}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 						</ul>
 
 						</div>

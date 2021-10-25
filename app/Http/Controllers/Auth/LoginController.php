@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -26,15 +31,44 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo;
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
+
+    public function login(Request $request){
+        $validator = Validator::make($request->all(), [
+            'email_login'   => 'required|email|exists:Users,email',
+            'password_login' => 'required|min:8'
+        ]);
+        if($validator->fails()) {
+            return response()->json(['errors'=>$validator->errors()]);
+        }
+        
+        $check = Auth::attempt(['email' => $request['email_login'], 'password' => $request['password_login']]);
+        if($check == false) {
+            return response()->json(['errors' => ['invalid' => ['Please check your enterd data']]]);
+        }
+    }
+
+    public function ChangePassword (Request $request) {
+    
+        $validator = Validator::make($request->all(), [
+            'email_reset'   => 'required|email|exists:Users,email',
+            'password_reset' => ['required', 'string', 'min:8'],
+            'password_repeat_reset' => ['required', 'string', 'min:8','same:password_reset']
+
+        ]);
+        if($validator->fails()) {
+            return response()->json(['errors'=>$validator->errors()]);
+        }
+        User::where('email',$request['email_reset'])->update(['password'=>Hash::make($request['password_reset'])]);
+    }
+
+
+    public function Logout(Request $request){
+
+        Auth::logout();
+        $request->session()->flush();
+        $request->session()->regenerate();
+        return redirect()->route('welcome');
     }
 }

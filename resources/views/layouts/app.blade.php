@@ -4,6 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="{{asset('images/logo-favicon.png')}}" type="image/x-icon">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <title>@yield('title'){{Config('app.name','Blogs')}}</title>
 
         <!-- Fonts -->
@@ -37,6 +39,12 @@
             }
             .user-avatar::after {
                 display: none
+            }
+            .user-name {
+                font-weight: 500;
+                color: #333;
+                line-height: 20px;
+                padding: 11px 0 0 15px; 
             }
         </style>
         @stack('css')
