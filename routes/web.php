@@ -36,6 +36,12 @@ Route::middleware(['auth'])->group(function () {
 Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], function (){
     Route::get('dashboard','Admin\DashboardController@index')->name('dashboard');
 
+    Route::get('user','Admin\UsersController@index')->name('user.index');
+    Route::get('user/delete/{id}','Admin\UsersController@destroy')->name('user.delete');
+
+    Route::get('tags','TagController@index')->name('tags.index');
+    Route::get('tags/delete/{id}','TagController@destroy')->name('tags.delete');
+
  /*   
     Route::get('settings','Admin\SettingsController@index')->name('settings');
     Route::put('profile-update','Admin\SettingsController@updateProfile')->name('profile.update');
