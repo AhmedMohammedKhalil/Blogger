@@ -59,11 +59,13 @@
 
 @push('js')
     <script>
+        var public_path = @json(public_path());
         $('.follow').click(function(e){
             e.prventDefault;
             var id = $(e.currentTarget).attr('id');
             axios.post('{{route('follow')}}',{'id':id})
             .then((res) => {
+                console.log(public_path);
                 Snackbar.show({text: 'follow Successfully',pos: 'bottom-left'});
                 $('span.followingsCount').text(res.data.count);
                 $('.btn_'+id).remove();
