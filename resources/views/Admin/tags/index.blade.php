@@ -2,24 +2,17 @@
 @section('title','Dashboard - ')
 @section('content')
 
-<div class="dashboard-content-container" data-simplebar>
-		<div class="dashboard-content-inner" >
               
               {{-- headline --}}
              <div class="dashboard-headline">
-				
-				<!-- Breadcrumbs -->
-				
+				<h3>Tags</h3>	
 			</div>
             {{-- Tag line --}}
             <div class="row">
 				<!-- Dashboard Box -->
 				<div class="col-xl-12">
 					<div class="dashboard-box margin-top-0">
-						<!-- Headline -->
-						<div class="headline">
-							<h3><i class="icon-material-outline-business-center"></i> Tags</h3>
-						</div>
+						
 
 						<div class="content">
 							<ul class="dashboard-box-list">
@@ -61,8 +54,7 @@
 
 
 
-        </div>
-</div>
+       
 
 
 @endsection

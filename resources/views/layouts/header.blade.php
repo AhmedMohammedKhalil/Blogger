@@ -9,12 +9,12 @@
 				
 				<!-- Logo -->
 				<div id="logo">
-					<a href="#" width=100%><img src="{{asset('images/logo.png')}}" alt=""></a>
+					<a href="{{route('home')}}" width=100%><img src="{{asset('images/logo.png')}}" alt=""></a>
 				</div>
 
 				<!-- Main Navigation -->
 				<div class="Home">
-					<h3><a href="">Home</a></h3>
+					<h3><a href="{{route('home')}}">Home</a></h3>
 				</div>
 				<!-- Main Navigation / End -->
 				

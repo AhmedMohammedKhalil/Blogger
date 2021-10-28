@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class SettingsController extends Controller
 {
@@ -51,7 +52,7 @@ class SettingsController extends Controller
 
         if($r->hasFile('image')) {
             $valid = Validator::make($r->all(),[
-                'image' => ['required','image','mimes:jpeg,png,jpg,svg','max:2048','dimensions:width=300,height=300']
+                'image' => ['required','image','mimes:jpeg,png,jpg,svg','max:2048',Rule::dimensions()->minWidth(80)->minHeight(80)->maxWidth(500)->maxHeight(500)->ratio(1/1)]
             ]);
             if($valid->fails()){
                 //dd($valid->errors());

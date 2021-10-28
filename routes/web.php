@@ -52,7 +52,7 @@ Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], 
  /*   
     Route::get('settings','Admin\SettingsController@index')->name('settings');
 /*
->>>>>>> master
+
     Route::put('profile-update','Admin\SettingsController@updateProfile')->name('profile.update');
     Route::put('password-update','Admin\SettingsController@updatePassword')->name('password.update');
 

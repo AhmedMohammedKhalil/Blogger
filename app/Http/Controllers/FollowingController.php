@@ -14,7 +14,10 @@ class FollowingController extends Controller
         foreach(Auth::user()->followings as $f) {
             array_push($followings,User::where('id',$f->following_id)->first());
         }
-        return view('Auther.followings',compact('followings'));
+        if(Auth::user()->role->id == '2')
+            return view('Auther.followings',compact('followings'));
+        else 
+            return view('Admin.followings',compact('followings'));    
     }
 
     public function unfollow(Request $r) {

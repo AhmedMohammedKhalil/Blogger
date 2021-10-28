@@ -2,23 +2,15 @@
 @section('title','Users - ')
 @section('content')
 
-<div class="dashboard-content-container" data-simplebar>
-		<div class="dashboard-content-inner" >
-              
               {{-- headline --}}
              <div class="dashboard-headline">
-				
-				<!-- Breadcrumbs -->
+				<h3>Users</h3>
 			</div>
             {{-- Tag line --}}
             <div class="row">
 				<!-- Dashboard Box -->
 				<div class="col-xl-12">
 					<div class="dashboard-box margin-top-0">
-						<!-- Headline -->
-						<div class="headline">
-							<h3><i class="icon-material-outline-business-center"></i> Users</h3>
-						</div>
 
 						<div class="content">
 							<ul class="dashboard-box-list">
@@ -33,7 +25,7 @@
 
 											<!-- Logo -->
 											<a href="#" class="job-listing-company-logo">
-												<img src="{{asset('images/user-logo.jpg')}}" alt="">
+												<img src="{{asset('storage/users/'.$u->id.'/images/'.$u->image)}}" alt="">
 											</a>
 
 											<!-- Details -->
@@ -64,11 +56,6 @@
 					</div>
 				</div>
             </div>
-
-
-
-        </div>
-</div>
 
 
 @endsection

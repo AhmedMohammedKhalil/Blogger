@@ -15,7 +15,7 @@ class UsersController extends Controller
 
     public function index()
     {
-        $users=User::auther();
+        $users=User::Auther();
         return view('admin.users.index',compact('users'));
     }
 

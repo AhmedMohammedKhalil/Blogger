@@ -7,6 +7,8 @@
 
         .filter{
             text-align: center;
+            margin-top: 28px;
+
         }
         .filter h3{
             padding-bottom: 20px

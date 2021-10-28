@@ -75,8 +75,8 @@
                     <div class="row">
 
                         <div class="col-6">
-                            <div class="wrapper">
-                                <h2>Upload Profile Picture 300*300</h2>
+                            <div class="wrapper" title="Note : max width and Height 500px " data-tippy-placement="bottom">
+                                <h2>Upload Profile Picture</h2>
                                 <input type="file" id="file-input" name="image">
                                 <label for="file-input" >
                                     <i class="fa fa-paperclip fa-2x"></i>

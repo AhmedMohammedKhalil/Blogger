@@ -19,31 +19,31 @@
 
             <div class="content followings-content">
                 @if (count($followings) > 0)
-                <ul class="dashboard-box-list followings-list">
-                    @foreach ($followings as $following)
-                        <li id="f_{{$following->id}}">
-                            <!-- Overview -->
-                            <div class="freelancer-overview">
-                                <div class="freelancer-overview-inner">
+                    <ul class="dashboard-box-list followings-list">
+                        @foreach ($followings as $following)
+                            <li id="f_{{$following->id}}">
+                                <!-- Overview -->
+                                <div class="freelancer-overview">
+                                    <div class="freelancer-overview-inner">
 
-                                    <!-- Avatar -->
-                                    <div class="freelancer-avatar">
-                                        <a href="#"><img src="{{asset('storage/users/'.$following->id.'/images/'.$following->image)}}" alt="profile_picture"></a>
-                                    </div>
-                                    <!-- Name -->
-                                    <div class="freelancer-name">
-                                        <h4><a href="#">{{$following->name}}</a></h4>
+                                        <!-- Avatar -->
+                                        <div class="freelancer-avatar">
+                                            <a href="#"><img src="{{asset('storage/users/'.$following->id.'/images/'.$following->image)}}" alt="profile_picture"></a>
+                                        </div>
+                                        <!-- Name -->
+                                        <div class="freelancer-name">
+                                            <h4><a href="#">{{$following->name}}</a></h4>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Buttons -->
-                            <div class="buttons-to-right single-right-button">
-                                <a href="#" class="button red ripple-effect ico unfollow" id="{{$following->id}}" data-tippy-placement="left" title="Unfollow"><i class="icon-feather-minus-circle"></i></a>
-                            </div>
-                        </li>
-                    @endforeach
-                </ul>
+                                <!-- Buttons -->
+                                <div class="buttons-to-right single-right-button">
+                                    <a href="#" class="button red ripple-effect ico unfollow" id="{{$following->id}}" data-tippy-placement="left" title="Unfollow"><i class="icon-feather-minus-circle"></i></a>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
                 @else
                     <div style="text-align: center">Not Found Followings</div>
                 @endif
