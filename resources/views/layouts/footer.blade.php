@@ -1,4 +1,4 @@
-<div id="footer">
+<div id="footer" style="z-index: 115">
     <div class="footer-bottom-section">
         <div class="container">
             <div class="row">

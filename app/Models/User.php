@@ -55,12 +55,16 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Comment');
     }
 
-    public function followers()
+    public function followings()
     {
         return $this->hasMany('App\Models\Follower');
     }
+<<<<<<< HEAD
     public function scopeAuther($query)
     {
         return $query->where('role_id','2');
     }
+=======
+
+>>>>>>> master
 }

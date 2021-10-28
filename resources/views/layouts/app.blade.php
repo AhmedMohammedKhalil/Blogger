@@ -18,6 +18,7 @@
             
             .search-followers {
                 position: relative;
+                cursor: pointer;
             }
             .icon-material-outline-search {
                 font-size: 36px;
@@ -25,15 +26,71 @@
                 top: 50%;
                 transform: translate(-50%,-50%);
             }
-            .logo a {
+            #header .container {
+                display:flex;
+            }
+
+            #header .left {
+                    display: flex;
+                    width: 60%;
+                    align-items: center;
+                }
+            #header .right {
+                display: flex;
+                width: 40%;
+                justify-content: flex-end;
+                align-items: center
+            }
+            @media (max-width: 426px) {
+                #header {
+                    height: 130px !important;
+                }    
+                
+                #header .container {
+                    display: flex;
+                    flex-direction: column;
+                    flex-wrap: wrap;
+                }
+
+                #header .left {
+                    display: flex;
+                    width: 100%;
+                    align-items: center;
+                    height: 60px;
+                    border-bottom: 2px solid;
+                }
+                #header .right {
+                    display: flex;
+                    width: 100%;
+                    padding-top: 15px;
+                    justify-content: space-evenly;
+                }
+                .dashboard-sidebar {
+                    margin-top: 140px !important;
+                }
+            }
+            
+            
+            .header-widget {
+                border-left: none
+            }
+
+            @media (max-width: 768px) {
+                #header .left #logo {
+                    width: 200px !important;
+                }
+            }
+            #header .left #logo {
+                width: 281px !important;
+            }
+            
+            #logo a {
                 height: 100%;
                 width: 100%;
                 display: inline-block;
             }
 
-            nav#navigation li {
-                margin-left:50px !important
-            }
+            
             .user-avatar {
                 border:5px solid #ccc;
             }
@@ -45,6 +102,88 @@
                 color: #333;
                 line-height: 20px;
                 padding: 11px 0 0 15px; 
+            }
+
+            @media (max-width: 768px)
+            {
+                .user-menu .header-notifications-dropdown, .header-notifications-dropdown {
+                    width: calc(100vw - 45px);
+                    right: 22px;
+                    top: calc(100% + 15px);
+                }
+            }
+            .dashboard-sidebar {
+                margin-top: 70px
+             }
+
+            @media (min-width: 767px)
+            {
+                .sidebar {
+                    margin-top: 100px
+                }
+            }
+
+            .search {
+                position: absolute;
+                width: 97vw;
+                top: 99px;
+                height: 85vh;
+                right: -174px;
+                background: rgb(0 0 0 /80%);
+                display: none;
+                align-items: center;
+            }
+            .close{
+                position: absolute;
+                top: 112px;
+                right: 36px;
+                font-size: 30px;
+                color: whitesmoke;
+                z-index: 22222;
+                cursor: pointer;
+                display: none;
+            }
+            .search .input-with-icon-left {
+                width: 98%;
+                padding-left: 4px;
+                margin-left: 5px;
+                border-bottom: 2px solid;
+            }
+
+            .search .input-with-icon-left i {
+                position: absolute;
+                /* bottom: 19px; */
+                top: 38px;
+                left: 32px;
+                font-size: 42px;
+                height: 61px;
+                width: 54px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: radial-gradient(black, transparent);
+            }
+
+            .search input {
+                height: 73px;
+                /* line-height: 73px; */
+                font-size: 24px;
+                background: transparent;
+                margin-bottom: 0;
+                box-shadow: none;
+            }
+
+            .full-page-container, .dashboard-container , .dashboard-content-container{
+                height:100vh !important;
+            }
+
+            .dashboard-content-inner {
+                margin-top:67px;
+            }
+            @media (max-width:992px) {
+                .dashboard-content-inner {
+                    margin-top:0;
+                }
             }
         </style>
         @stack('css')
@@ -65,19 +204,26 @@
                 <!-- Dashboard Content
                 ================================================== -->
                 <div class="dashboard-content-container" data-simplebar>
-                    <div class="dashboard-content-inner" >
+                    <div class="dashboard-content-inner">
                         @yield('content')
+                        <div class="dashboard-footer-spacer" style="padding-top: 123.2px;"></div>
+                        <div class="small-footer margin-top-15">
+                            <div class="small-footer-copyrights">
+                                © 2021 <strong>{{config('app.name','Blogs')}}</strong>. All Rights Reserved.
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
                 <!-- Dashboard Content / End -->
-            
+
+                
             </div>
-            <!-- Footer Copyrights -->
-            @include('layouts.footer')
+            
         </div>
         
         <!-- Footer Copyrights -->
-
+        <script src="{{asset('js/app.js')}}"></script>
         <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
         <script src="{{asset('js/jquery-migrate-3.0.0.min.js')}}"></script>
         <script src="{{asset('js/mmenu.min.js')}}"></script>
@@ -91,7 +237,31 @@
         <script src="{{asset('js/magnific-popup.min.js')}}"></script>
         <script src="{{asset('js/slick.min.js')}}"></script>
         <script src="{{asset('js/custom.js')}}"></script>
+        <script>
+            
 
+            function messageError(errorName,message) {
+                $('input[name='+errorName+']').addClass('is-invalid');
+                    $('input[name='+errorName+']').parent().append(
+                        '<span id='+errorName+' class="invalid-feedback d-block px-2" role="alert">'+
+                                '<strong>'+message+'</strong>'+
+                        '</span>'
+                );
+            } 
+            $('.search-followers').click(function() {
+                if($('.search').css('display') == "none") {
+                    $('.search').css('display',"flex");
+                    $('.close').show();
+                }
+            });
+           
+            $('.close').click(function() {
+                $('.search').hide();
+                $('.close').hide();
+            })
+
+        </script>
+        
         @stack('js')
 
     </body>

@@ -4,8 +4,8 @@
 
 @push('css')
     <style>
+
         .filter{
-            margin-top:100px;
             text-align: center;
         }
         .filter h3{

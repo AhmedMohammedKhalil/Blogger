@@ -1,28 +1,21 @@
-<header id="header-container" class="fullwidth dashboard-header not-sticky">
+<header id="header-container" class="fullwidth dashboard-header not-sticky" style="position: fixed;">
 
 	<!-- Header -->
 	<div id="header">
 		<div class="container">
 			
 			<!-- Left Side Content -->
-			<div class="left-side">
+			<div class="left">
 				
 				<!-- Logo -->
 				<div id="logo">
-					<a href="#" width=100%><img src="images/logo.png" alt=""></a>
+					<a href="#" width=100%><img src="{{asset('images/logo.png')}}" alt=""></a>
 				</div>
 
 				<!-- Main Navigation -->
-				<nav id="navigation">
-					<ul id="responsive">
-						<li>
-							<a href="#">
-								Home
-							</a>
-						</li>
-					</ul>
-				</nav>
-				<div class="clearfix"></div>
+				<div class="Home">
+					<h3><a href="">Home</a></h3>
+				</div>
 				<!-- Main Navigation / End -->
 				
 			</div>
@@ -30,13 +23,20 @@
 
 
 			<!-- Right Side Content / End -->
-			<div class="right-side">
+			<div class="right">
+				<div class="close">X</div>
                 <div class="header-widget search-followers">
                     <span class="icon-material-outline-search">
                     </span>
+					<div class="search">
+						<div class="input-with-icon-left no-border">
+							<i class="icon-material-outline-search"></i>
+							<input type="text" class="input-text" placeholder="Search....">
+						</div>
+					</div>
                 </div>
 				<!--  User Notifications -->
-				<div class="header-widget hide-on-mobile">
+				<div class="header-widget">
 					
 					<!-- Notifications -->
 					<div class="header-notifications">
@@ -116,7 +116,13 @@
 					<!-- Messages -->
 					<div class="header-notifications user-menu">
 						<div class="header-notifications-trigger">
-							<a href="#"><div class="user-avatar"><img src="images/user-avatar-small-01.jpg" alt=""></div></a>
+							<a href="
+							@if (Auth::user()->role->id == "2")
+								{{route('auther.profile')}}
+							@else
+								{{route('admin.dashboard')}}
+							@endif
+							"><div class="user-avatar"><img src="{{asset('/storage/users/'.Auth::user()->id.'/images/'.Auth::user()->image)}}" alt=""></div></a>
 						</div>
 
 						<!-- Dropdown -->
@@ -127,22 +133,20 @@
 
 								<!-- User Name / Avatar -->
 								<div class="user-details">
-									<div class="user-avatar"><img src="images/user-avatar-small-01.jpg" alt=""></div>
+									<div class="user-avatar"><img src="{{asset('/storage/users/'.Auth::user()->id.'/images/'.Auth::user()->image)}}" alt=""></div>
 									<div class="user-name">
 										{{Auth::user()->name}}
 									</div>
 								</div>
 								
-								
 						</div>
-						
 						<ul class="user-menu-small-nav">
 							@if (Auth::user()->role->id == "2")
 								<li><a href="{{route('auther.profile')}}"><i class="icon-material-outline-dashboard"></i>Profile</a></li>
 							@else
 								<li><a href="{{route('admin.dashboard')}}"><i class="icon-material-outline-dashboard"></i>Dashboard</a></li>
 							@endif
-							<li><a href="{{route('logout')}}"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							<li><a href="{{route('logout')}}"><i class="icon-material-outline-power-settings-new"></i>Logout</a></li>
 						</ul>
 
 						</div>
@@ -152,13 +156,6 @@
 				<!-- User Menu / End -->
 
 				<!-- Mobile Navigation Button -->
-				<span class="mmenu-trigger">
-					<button class="hamburger hamburger--collapse" type="button">
-						<span class="hamburger-box">
-							<span class="hamburger-inner"></span>
-						</span>
-					</button>
-				</span>
 
 			</div>
 			<!-- Right Side Content / End -->

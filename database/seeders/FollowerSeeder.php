@@ -13,6 +13,6 @@ class FollowerSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \App\Models\Follower::factory(20)->create();
     }
 }

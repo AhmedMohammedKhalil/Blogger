@@ -1,21 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auther;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class ProfileController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    
 
     /**
      * Show the application dashboard.
@@ -24,6 +16,10 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('auther.profile');
+        if(Auth::user()->role->id == "1")
+            return view('admin.profile');
+        else
+            return view('auther.profile');
+
     }
 }

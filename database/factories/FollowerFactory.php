@@ -22,7 +22,8 @@ class FollowerFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => $this->faker->numberBetween(1,20),
+            'following_id' => $this->faker->numberBetween(1,20),
         ];
     }
 }

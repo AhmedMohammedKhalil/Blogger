@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 
 class LoginController extends Controller
@@ -42,11 +43,21 @@ class LoginController extends Controller
         if($validator->fails()) {
             return response()->json(['errors'=>$validator->errors()]);
         }
-        
+
+        $user = User::where('email',$request['email_login'])->first();
+
+        if($user) {
+            if (is_dir(public_path('storage/users/' . $user->id . '/images')) == false) {
+                mkdir(public_path('storage/users/'.$user->id ));
+                mkdir(public_path('storage/users/'.$user->id .'/images'));
+
+                copy(public_path('images/user_default.png'), public_path('storage/users/' .$user->id . '/images/user_default.png'));
+            }
+        }
         $check = Auth::attempt(['email' => $request['email_login'], 'password' => $request['password_login']]);
         if($check == false) {
             return response()->json(['errors' => ['invalid' => ['Please check your enterd data']]]);
-        }
+        } 
     }
 
     public function ChangePassword (Request $request) {

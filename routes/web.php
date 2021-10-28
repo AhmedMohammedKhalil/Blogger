@@ -30,11 +30,18 @@ Route::post('reset-password','Auth\loginController@changePassword')->name('reset
 Route::middleware(['auth'])->group(function () {
     Route::get('logout','Auth\loginController@Logout')->name('logout');
     Route::get('home', 'HomeController@index')->name('home');
+    Route::post('unfollow','FollowingController@unfollow')->name('unfollow');
+    Route::post('follow','FollowerController@follow')->name('follow');
 
 });
 
 Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], function (){
     Route::get('dashboard','Admin\DashboardController@index')->name('dashboard');
+    Route::get('profile','ProfileController@index')->name('profile');
+    Route::get('settings','SettingsController@index')->name('settings');
+    Route::post('settings/edit','SettingsController@edit')->name('settings.edit');
+    Route::get('followers','FollowerController@index')->name('followers');
+    Route::get('followings','FollowingController@index')->name('followings');
 
     Route::get('user','Admin\UsersController@index')->name('user.index');
     Route::get('user/delete/{id}','Admin\UsersController@destroy')->name('user.delete');
@@ -44,6 +51,8 @@ Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], 
 
  /*   
     Route::get('settings','Admin\SettingsController@index')->name('settings');
+/*
+>>>>>>> master
     Route::put('profile-update','Admin\SettingsController@updateProfile')->name('profile.update');
     Route::put('password-update','Admin\SettingsController@updatePassword')->name('password.update');
 
@@ -69,9 +78,12 @@ Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], 
 });
 
 Route::group(['as'=>'auther.','prefix'=>'auther','middleware'=>['auth','auther']], function (){
-    Route::get('profile','Auther\ProfileController@index')->name('profile');
-/*    
-    Route::get('settings','Auther\SettingsController@index')->name('settings');
+    Route::get('profile','ProfileController@index')->name('profile'); 
+    Route::get('settings','SettingsController@index')->name('settings');
+    Route::post('settings/edit','SettingsController@edit')->name('settings.edit');
+    Route::get('followers','FollowerController@index')->name('followers');
+    Route::get('followings','FollowingController@index')->name('followings');
+/*
     Route::put('profile-update','Auther\SettingsController@updateProfile')->name('profile.update');
     Route::put('password-update','Auther\SettingsController@updatePassword')->name('password.update');
 
