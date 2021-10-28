@@ -43,7 +43,16 @@ Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], 
     Route::get('followers','FollowerController@index')->name('followers');
     Route::get('followings','FollowingController@index')->name('followings');
 
+    Route::get('user','Admin\UsersController@index')->name('user.index');
+    Route::get('user/delete/{id}','Admin\UsersController@destroy')->name('user.delete');
+
+    Route::get('tags','TagController@index')->name('tags.index');
+    Route::get('tags/delete/{id}','TagController@destroy')->name('tags.delete');
+
+ /*   
+    Route::get('settings','Admin\SettingsController@index')->name('settings');
 /*
+>>>>>>> master
     Route::put('profile-update','Admin\SettingsController@updateProfile')->name('profile.update');
     Route::put('password-update','Admin\SettingsController@updatePassword')->name('password.update');
 
