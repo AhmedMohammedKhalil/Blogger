@@ -187,7 +187,32 @@
         <script src="{{asset('js/custom.js')}}"></script>
 
         <script>
+            function footer () {
+                var p = $('#footer').position().top;
+                var h = document.documentElement.clientHeight - 59;
+                var scroll = document.documentElement.scrollHeight - 59;
+                //console.log(p+" "+h)
+                if(p < h) {
+                    $('#footer').css({
+                        position : "fixed",bottom : 0,width:'100%'
+                    });
+                }else {
+                    $('#footer').css({
+                            position : "relative",bottom : 0,width:'100%'
+                    });
+                }
+                if(h < scroll) {
+                    $('#footer').css({
+                            position : "relative",bottom : 0,width:'100%'
+                    });
+                }
+                
+            }
+            const resizeObserver = new ResizeObserver(() => {
+                footer();
+            });
 
+            resizeObserver.observe(document.querySelector('#footer'))
             $('a').click(function (ev) {
                 ev.preventDefault();
 

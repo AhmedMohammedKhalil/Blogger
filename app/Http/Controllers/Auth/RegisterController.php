@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 class RegisterController extends Controller
 {
     /*
@@ -66,8 +66,15 @@ class RegisterController extends Controller
                 User::create([
                     'name' => $request['name'],
                     'email' => $request['email_register'],                
-                    'password' => Hash::make($request['password_register']), 
+                    'password' => Hash::make($request['password_register']),
+                    'image' => "user_default.png"
                 ]);
+                $user = User::where('email',$request['email_register'])->first();
+                mkdir(public_path('storage/users/'.$user->id ));
+                mkdir(public_path('storage/users/'.$user->id .'/images'));
+
+                copy(public_path('images/user_default.png'), public_path('storage/users/' .$user->id . '/images/user_default.png'));
+   
                 Auth::attempt(['email' => $request['email_register'], 'password' => $request['password_register']]);
             }
             
