@@ -4401,12 +4401,12 @@ span.blog-item-tag {
 
 	.full-page-container.with-map .full-page-content-container {  flex: 1; }
 
-	.full-page-container,
+	/* .full-page-container,
 	.full-page-sidebar-inner,
 	.full-page-content-container,
 	.full-page-container .full-page-sidebar {
 		height: auto !important;
-	}
+	} */
 
 	.full-page-container .simplebar-track { display: none; }
 }
@@ -4427,11 +4427,11 @@ span.blog-item-tag {
 	.full-page-content-inner .grid-layout .job-listing { width: calc(100% - 30px); }
 	.full-page-sidebar { flex: 0 0 320px; }
 
-	.full-page-sidebar-inner,
+	/* .full-page-sidebar-inner,
 	.full-page-content-container,
 	.full-page-container .full-page-sidebar {
 		height: auto !important;
-	}
+	} */
 }
 
 @media (max-width: 768px) {

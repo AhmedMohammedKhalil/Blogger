@@ -3,7 +3,7 @@
 @section('title','Home - ')
 
 @section('content')
-
+    
 @endsection
 
 @section('sidebar')
@@ -14,7 +14,7 @@
             <!-- Tags -->
             <div class="sidebar-widget">
                 <h3>Tags</h3>
-                <select name="tags[]" class="selectpicker default" multiple data-selected-text-format="count" data-size="7" title="All Categories" >
+                <select name="tags[]" class="selectpicker default" multiple data-selected-text-format="count" data-size="7" title="All Tags" >
                     <option>Admin Support</option>
                     <option>Customer Service</option>
                     <option>Data Analytics</option>

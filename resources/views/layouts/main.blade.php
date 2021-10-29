@@ -14,7 +14,7 @@
         <link rel="stylesheet" href={{asset('css/style.css')}}>
         <link rel="stylesheet" href="{{asset('css/colors/blue.css')}}">
         <style>
-           
+
             
             .search-followers {
                 position: relative;
@@ -75,15 +75,24 @@
                 border-left: none
             }
 
+            
+            #header .left #logo {
+                width: 320px !important;
+            }
+
             @media (max-width: 768px) {
                 #header .left #logo {
-                    width: 200px !important;
+                    width: 123px !important;
                 }
             }
-            #header .left #logo {
-                width: 281px !important;
+
+            @media (max-width: 426px) {
+                #header .left #logo {
+                    width: 75% !important;
+                }
             }
-            
+
+
             #logo a {
                 height: 100%;
                 width: 100%;
@@ -128,7 +137,12 @@
                 }
             }
             .full-page-container {
-                padding-top : 80px;
+                padding-top : 76px;
+            }
+            @media (max-width:426px) {
+                .full-page-container {
+                    padding-top: 115px;
+                }
             }
             .sidebar-search-button-container {
                 position : relative
@@ -146,13 +160,34 @@
                 font-weight: bold;
             }
 
+            .full-page-sidebar .full-page-sidebar-inner {
+                overflow: hidden;
+                height: 100%;
+            }
+            .full-page-content-inner {
+                position: relative;
+            }
+            .full-page-content-inner .small-footer {
+                width: 100%;
+                left: 0px;
+                padding: 25px 50px;
+                position: absolute;
+                bottom: 0;
+            }
+            @media (max-width: 768px) {
+                .full-page-sidebar-inner, .full-page-content-container,
+                 .full-page-container .full-page-sidebar { 
+                    height: auto !important
+                 }
+
+            }
         </style>
     </head>
     <body>
             @include('layouts.header')
             <div class="full-page-container">
                 <div class="full-page-sidebar">
-                    <div class="full-page-sidebar-inner" data-simplebar>
+                    <div class="full-page-sidebar-inner" >
                         @yield('sidebar')
                     </div>
                 </div>
@@ -161,7 +196,9 @@
                 <!-- Full Page Content -->
                 <div class="full-page-content-container" data-simplebar>
                     <div class="full-page-content-inner">
-                        @yield('content')
+                        <div style="padding-bottom: 100px">
+                            @yield('content')
+                        </div>
                         
                         <div class="small-footer margin-top-15">
                             <div class="small-footer-copyrights">
@@ -177,6 +214,7 @@
             
             </div>
         {{-- <script src="{{asset('js/app.js')}}"></script> --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js" integrity="sha512-u9akINsQsAkG9xjc1cnGF4zw5TFDwkxuc9vUp5dltDWYCSmyd0meygbvgXrlc/z7/o4a19Fb5V0OUE58J7dcyw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
         <script src="{{asset('js/jquery-migrate-3.0.0.min.js')}}"></script>
         <script src="{{asset('js/mmenu.min.js')}}"></script>

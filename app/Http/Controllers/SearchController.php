@@ -26,6 +26,7 @@ class SearchController extends Controller
                 array_push($unfollowers,[$u,$fCount]);
             } 
         }
+        //dd($unfollowers);
         return view ('search',compact('unfollowers'));
     } 
     
@@ -33,4 +34,5 @@ class SearchController extends Controller
     {
         dd($r->all());
     } 
+
 }

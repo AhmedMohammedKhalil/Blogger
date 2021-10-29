@@ -75,15 +75,21 @@
                 border-left: none
             }
 
+            #header .left #logo {
+                width: 275px !important;
+            }
+
             @media (max-width: 768px) {
                 #header .left #logo {
-                    width: 200px !important;
+                    width: 123px !important;
                 }
             }
-            #header .left #logo {
-                width: 281px !important;
+
+            @media (max-width: 426px) {
+                #header .left #logo {
+                    width: 75% !important;
+                }
             }
-            
             #logo a {
                 height: 100%;
                 width: 100%;
