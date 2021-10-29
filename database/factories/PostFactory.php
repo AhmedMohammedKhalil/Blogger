@@ -22,7 +22,11 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'reaction_count' => $this->faker->numberBetween(1,20),
+            'views_count' => $this->faker->numberBetween(1,5),
+            'comment_count' => $this->faker->numberBetween(1,10),
+            'content' => $this->faker->text(),
+            'user_id' => $this->faker->numberBetween(1,21)
         ];
     }
 }

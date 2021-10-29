@@ -32,6 +32,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::post('unfollow','FollowingController@unfollow')->name('unfollow');
     Route::post('follow','FollowerController@follow')->name('follow');
+    Route::get('search','SearchController@index')->name('search');
+    Route::get('searching','SearchController@search')->name('searching');
+
+
 
 });
 

@@ -24,16 +24,10 @@
 
 			<!-- Right Side Content / End -->
 			<div class="right">
-				<div class="close">X</div>
+				{{-- <div class="close">X</div> --}}
                 <div class="header-widget search-followers">
-                    <span class="icon-material-outline-search">
+                    <span class="icon-material-outline-search search">
                     </span>
-					<div class="search">
-						<div class="input-with-icon-left no-border">
-							<i class="icon-material-outline-search"></i>
-							<input type="text" class="input-text" placeholder="Search....">
-						</div>
-					</div>
                 </div>
 				<!--  User Notifications -->
 				<div class="header-widget">
@@ -166,3 +160,12 @@
 
 </header>
 <div class="clearfix"></div>
+
+
+@push('js')
+	<script>
+		$('.search').click(function () {
+			window.location.replace("{{route('search')}}");
+		})
+	</script>
+@endpush

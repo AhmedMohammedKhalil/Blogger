@@ -57,7 +57,7 @@
                                     
                                 <!-- Form -->
                                 <form method="post" action="#" id="login-form">
-
+                                    
                                     <div class="input-with-icon-left">
                                         <i class="icon-material-baseline-mail-outline"></i>
                                         <input type="email" class="input-email with-border{{ $errors->has('email_login') ? ' is-invalid' : '' }}" name="email_login" id="emailaddress"  placeholder="Email Address" value="{{ old('email_login') }}" required autofocus/>
@@ -78,6 +78,7 @@
                                             </span>
                                         @endif
                                     </div>
+
                                     <a href="#" class="forgot-password">Forgot Password?</a>
                                 </form>
                                 
@@ -234,14 +235,26 @@
             $(document).ready(() => {
                 function messageError(errorName,message) {
                     $('input[name='+errorName+']').addClass('is-invalid');
-                        $('input[name='+errorName+']').parent().append(
+                        $('input[name='+errorName+']').parent().prepend(
                             '<span id='+errorName+' class="invalid-feedback d-block px-2" role="alert">'+
                                     '<strong>'+message+'</strong>'+
                             '</span>'
                     );
                 } 
+                function deleteMessages() {
 
+                    if($('input').hasClass('is-invalid')) {
+                        $('input').removeClass('is-invalid');
+                    }
+                    if($('span.invalid-feedback').length) {
+                        $('span.invalid-feedback').remove();
+                    }
+                    if($('span#invalid').length) {
+                        $('span#invalid').remove();
+                    }
+                }
                 $('#register-form').submit((e) => {
+                    deleteMessages();
                     e.preventDefault();
                     axios.post('{{ route('register') }}',$(e.target).serialize())
                     .then((res) => {
@@ -269,6 +282,7 @@
                 })
 
                 $('#login-form').submit((e) => {
+                    deleteMessages();
                     e.preventDefault();
                     axios.post('{{ route('login') }}',$(e.target).serialize())
                     .then((res) => {
@@ -284,16 +298,22 @@
                             if(errors.password_repeat_login){
                                 messageError('password_repeat_login',errors.password_repeat_login[0]);
                             }
+                            if(errors.invalid){
+                                $('#login-form').prepend(
+                                    '<span id="invalid" class="invalid-feedback d-block px-2" role="alert">'+
+                                            '<strong>'+errors.invalid[0]+'</strong>'+
+                                    '</span>'
+                                );
+                            }
                         }else {
-                            
                                 window.location.replace("{{route('home')}}");
 
-                            //hostwindow.location.replace("{{route('auther.profile')}}");
                         }
                     })
                 })
 
                 $('#reset-password').submit((e) => {
+                    deleteMessages();
                     e.preventDefault();
                     axios.post('{{ route('reset-password') }}',$(e.target).serialize())
                     .then((res) => {
@@ -322,10 +342,12 @@
                     var input = $(e.target)
                     if(input.hasClass('is-invalid')) {
                         input.removeClass('is-invalid');
-                        //$('#'+input.attr('name')).remove();
                     }
                     if($('span.invalid-feedback').length) {
                         $('span.invalid-feedback').remove();
+                    }
+                    if($('span#invalid').length) {
+                        $('span#invalid').remove();
                     }
                 })  
 

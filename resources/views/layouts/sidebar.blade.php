@@ -1,4 +1,4 @@
-<div class="dashboard-sidebar">
+<div class="dashboard-sidebar del">
     <div class="dashboard-sidebar-inner" data-simplebar>
         <div class="dashboard-nav-container">
 

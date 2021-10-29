@@ -12,6 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $with = ['followings','posts'];
     /**
      * The attributes that are mass assignable.
      *
@@ -64,5 +65,7 @@ class User extends Authenticatable
     {
         return $query->where('role_id','2')->get();
     }
+
+    
 
 }

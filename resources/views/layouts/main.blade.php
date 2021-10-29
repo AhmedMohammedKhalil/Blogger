@@ -112,67 +112,71 @@
                     top: calc(100% + 15px);
                 }
             }
-            .dashboard-sidebar {
-                margin-top: 70px
-             }
 
+           
             @media (min-width: 767px)
             {
                 .sidebar {
                     margin-top: 100px
                 }
             }
-            .full-page-container, .dashboard-container , .dashboard-content-container{
-                height:100vh !important;
-            }
 
-            .dashboard-content-inner {
-                margin-top:67px;
-            }
+            
             @media (max-width:992px) {
-                .dashboard-content-inner {
+                .full-page-content-inner {
                     margin-top:0;
                 }
             }
+            .full-page-container {
+                padding-top : 80px;
+            }
+            .sidebar-search-button-container {
+                position : relative
+            }
+
+            .bookmark-icon:hover {
+                background-color: green;
+                color: #fff;
+            }
+
+            .bookmark-icon:before {
+                top: 2px;
+                content: "\002B";
+                font-size: 36px;
+                font-weight: bold;
+            }
+
         </style>
-        @stack('css')
     </head>
     <body>
-        <div class="parent">
-            <!-- header-->
             @include('layouts.header')
-            <div class="dashboard-container">
-
-                <!-- Dashboard Sidebar
-                ================================================== -->
+            <div class="full-page-container">
+                <div class="full-page-sidebar">
+                    <div class="full-page-sidebar-inner" data-simplebar>
+                        @yield('sidebar')
+                    </div>
+                </div>
+                <!-- Full Page Sidebar / End -->
                 
-                @include('layouts.sidebar')
-                <!-- Dashboard Sidebar / End -->
-            
-            
-                <!-- Dashboard Content
-                ================================================== -->
-                <div class="dashboard-content-container" data-simplebar>
-                    <div class="dashboard-content-inner">
+                <!-- Full Page Content -->
+                <div class="full-page-content-container" data-simplebar>
+                    <div class="full-page-content-inner">
                         @yield('content')
-                        <div class="dashboard-footer-spacer del" style="padding-top: 123.2px;"></div>
-                        <div class="small-footer margin-top-15 del">
+                        
+                        <div class="small-footer margin-top-15">
                             <div class="small-footer-copyrights">
                                 © 2021 <strong>{{config('app.name','Blogs')}}</strong>. All Rights Reserved.
                             </div>
                             <div class="clearfix"></div>
                         </div>
+                        <!-- Footer / End -->
+            
                     </div>
                 </div>
-                <!-- Dashboard Content / End -->
-
-                
-            </div>
+                <!-- Full Page Content / End -->
             
-        </div>
-        
-        <!-- Footer Copyrights -->
-        <script src="{{asset('js/app.js')}}"></script>
+            </div>
+        {{-- <script src="{{asset('js/app.js')}}"></script> --}}
         <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
         <script src="{{asset('js/jquery-migrate-3.0.0.min.js')}}"></script>
         <script src="{{asset('js/mmenu.min.js')}}"></script>
@@ -197,21 +201,16 @@
                         '</span>'
                 );
             } 
-            // $('.search-followers').click(function() {
-            //     if($('.search').css('display') == "none") {
-            //         $('.search').css('display',"flex");
-            //         $('.close').show();
-            //     }
-            // });
-           
-            // $('.close').click(function() {
-            //     $('.search').hide();
-            //     $('.close').hide();
-            // })
-
         </script>
         
         @stack('js')
 
     </body>
 </html>
+
+
+
+
+
+
+

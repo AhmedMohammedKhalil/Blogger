@@ -56,7 +56,7 @@ class LoginController extends Controller
         }
         $check = Auth::attempt(['email' => $request['email_login'], 'password' => $request['password_login']]);
         if($check == false) {
-            return response()->json(['errors' => ['invalid' => ['Please check your enterd data']]]);
+            return response()->json(['errors' => ['invalid' => ['Email or Passwored is Invalid']]]);
         } 
     }
 

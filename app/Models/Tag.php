@@ -13,4 +13,8 @@ class Tag extends Model
     {
         return $this->belongsToMany('App\Models\Post')->withTimestamps();
     }
+
+    public function users() {
+        return $this->hasManyThrough(User::class,Post::class);
+    }
 }

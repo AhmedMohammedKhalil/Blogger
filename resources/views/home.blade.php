@@ -1,30 +1,42 @@
-@extends('layouts.app')
+@extends('layouts.main')
 
 @section('title','Home - ')
 
-@push('css')
-    <style>
+@section('content')
 
-        .filter{
-            text-align: center;
-            margin-top: 28px;
-
-        }
-        .filter h3{
-            padding-bottom: 20px
-        }
-    </style>
-@endpush
+@endsection
 
 @section('sidebar')
-<div class="filter">
-    <h3>Select Tags : </h3>
-    <div class="tags">
-        <div class="checkbox">
-            <input type="checkbox" id="chekcbox1" checked="">
-            <label for="chekcbox1"><span class="checkbox-icon"></span> Checkbox</label>
-        </div>
+    <div class="sidebar-container">
+        <form id="searching" method="GET" action="{{route('searching')}}">
+            @csrf
+
+            <!-- Tags -->
+            <div class="sidebar-widget">
+                <h3>Tags</h3>
+                <select name="tags[]" class="selectpicker default" multiple data-selected-text-format="count" data-size="7" title="All Categories" >
+                    <option>Admin Support</option>
+                    <option>Customer Service</option>
+                    <option>Data Analytics</option>
+                    <option>Design & Creative</option>
+                    <option>Legal</option>
+                    <option>Software Developing</option>
+                    <option>IT & Networking</option>
+                    <option>Writing</option>
+                    <option>Translation</option>
+                    <option>Sales & Marketing</option>
+                </select>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="margin-bottom-40"></div>
+        </form>
     </div>
-</div>
-   
+    <!-- Sidebar Container / End -->
+    <!-- Search Button -->
+    <div class="sidebar-search-button-container">
+        <button type="submit" form="searching" class="button ripple-effect">Search</button>
+    </div>
+    <!-- Search Button / End-->
 @endsection
