@@ -13,12 +13,21 @@ class SearchController extends Controller
     {
         $unfollowers = [];
         $data = Auth::user()->followings;
+        $flag = true;
         if(count($data) > 0) {
-            foreach($data as $following) {
-                $userUnf = User::where('id','!=',$following->id)->first();
-                $fCount = Follower::where('following_id',$userUnf->id)->count();
-                array_push($unfollowers,[$userUnf,$fCount]);
-            } 
+            $users = User::where('id','!=',Auth::user()->id)->get();
+            foreach($users as $user) {
+                $flag = true;
+                foreach($data as $following) {
+                    if($user->id == $following->id) {
+                        $flag = false;
+                    }
+                } 
+                if($flag == true) {
+                    $fCount = Follower::where('following_id',$user->id)->count();
+                    array_push($unfollowers,[$user,$fCount]);
+                }
+            }
         } else {
             $user = User::where('id','!=',Auth::user()->id)->get();
             foreach($user as $u) {

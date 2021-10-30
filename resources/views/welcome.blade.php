@@ -235,7 +235,7 @@
             $(document).ready(() => {
                 function messageError(errorName,message) {
                     $('input[name='+errorName+']').addClass('is-invalid');
-                        $('input[name='+errorName+']').parent().prepend(
+                        $('input[name='+errorName+']').parent().append(
                             '<span id='+errorName+' class="invalid-feedback d-block px-2" role="alert">'+
                                     '<strong>'+message+'</strong>'+
                             '</span>'

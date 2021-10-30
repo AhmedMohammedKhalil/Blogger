@@ -19,7 +19,6 @@ class CreateMediaTable extends Migration
             $table->foreign('post_id')
                 ->references('id')->on('posts')
                 ->onDelete('cascade');
-            $table->string('type');
             $table->string('media');
             $table->timestamps();
         });

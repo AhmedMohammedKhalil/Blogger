@@ -34,6 +34,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('follow','FollowerController@follow')->name('follow');
     Route::get('search','SearchController@index')->name('search');
     Route::get('searching','SearchController@search')->name('searching');
+    Route::post('upload','PostController@upload')->name('upload');
+    Route::post('deletefiles','PostController@deleteFiles')->name('delete-files');
+    Route::post('create-post', 'PostController@store')->name('create-post');
+
 
 
 

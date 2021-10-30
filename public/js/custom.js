@@ -117,7 +117,7 @@ $(document).ready(function(){
 	backToTop();
 
 	// Showing Button
-	var pxShow = 600; // height on which the button will show
+	var pxShow = 300; // height on which the button will show
 	var scrollSpeed = 500; // how slow / fast you want the button to scroll to top.
 
 	$(window).scroll(function(){

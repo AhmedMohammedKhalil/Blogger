@@ -17,6 +17,7 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->text('content');
+            $table->string('type')->default('text');
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');

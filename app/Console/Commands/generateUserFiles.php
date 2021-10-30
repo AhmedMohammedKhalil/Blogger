@@ -44,6 +44,12 @@ class generateUserFiles extends Command
             if (is_dir(public_path('storage/users/' . $user->id . '/images')) == false) {
                 mkdir(public_path('storage/users/'.$user->id ));
                 mkdir(public_path('storage/users/'.$user->id .'/images'));
+                mkdir(public_path('storage/users/'.$user->id .'/posts'));
+                mkdir(public_path('storage/users/'.$user->id .'/temp'));
+                mkdir(public_path('storage/users/'.$user->id .'/temp/files'));
+                mkdir(public_path('storage/users/'.$user->id .'/temp/images'));
+
+
                 copy(public_path('images/user_default.png'), public_path('storage/users/' .$user->id . '/images/user_default.png'));
             } else {
                 $this->error('  this folder '.public_path('storage\users\\'.$user->id.'\images').' is existed  ');

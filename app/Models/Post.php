@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+    //protected $with = ['user','tags','reactions','comments','media','views'];
+
+    protected $fillable = [
+        'user_id','content','type'
+    ];
 
     public function user()
     {
