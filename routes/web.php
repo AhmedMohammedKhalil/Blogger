@@ -37,10 +37,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('upload','PostController@upload')->name('upload');
     Route::post('deletefiles','PostController@deleteFiles')->name('delete-files');
     Route::post('create-post', 'PostController@store')->name('create-post');
-
-
-
-
+    //comment routes
+    Route::post('comment/create','CommentController@store')->name('create-comment');
+    Route::post('editcomment','CommentController@update')->name('update-comment');
+    Route::post('deletecomment','CommentController@destroy')->name('delete-comment');
+    //
 });
 
 Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], function (){
