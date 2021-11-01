@@ -25,7 +25,7 @@
 
 											<!-- Logo -->
 											<a href="#" class="job-listing-company-logo">
-												<img src="{{asset('storage/users/'.$u->id.'/images/'.$u->image)}}" alt="">
+												<img src="{{asset('users/'.$u->id.'/images/'.$u->image)}}" alt="">
 											</a>
 
 											<!-- Details -->

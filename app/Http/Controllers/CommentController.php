@@ -30,8 +30,10 @@ class CommentController extends Controller
             $view->by=$user->id;
             $view->save();
         }
-        
-        return response()->json(['comment'=>$comment,'ccounter'=>$commcount,'user'=>$user]);
+        $vcount = Post::find($request->post_id)->views->count();
+        $view = view('Common.comments',compact('comment','user'))->render();
+        return response()->json(['html'=>$view,'ccounter'=>$commcount,'vcounter' => $vcount]);
+
 
     }
 
@@ -50,13 +52,16 @@ class CommentController extends Controller
     public function destroy(Request $request)
     {
         if($request->ajax()) {
-            $comment = Comment::find($request->id);
+            $comment = Comment::find($request->comment_id);
             foreach($comment->reactions as $r) {
                 $reaction = Reaction::find($r->id);
                 $reaction->delete();
             }
+            $post = Post::find($comment->post_id);
+            $ccounter = $post->comments->count();
+            $post_id = $post->id;
             $comment->delete();
-            return response()->json(['msg'=>"success"],200);
+            return response()->json(['ccounter' => $ccounter , 'post_id' => $post_id]);
         }
         
     }

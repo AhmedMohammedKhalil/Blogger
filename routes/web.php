@@ -42,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('editcomment','CommentController@update')->name('update-comment');
     Route::post('deletecomment','CommentController@destroy')->name('delete-comment');
     //
+    //search 
+    route::get('search-post','HomeController@search')->name('search-post');
+    Route::post('deletepost','PostController@destroy')->name('delete-post');
+
 });
 
 Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], function (){
