@@ -41,8 +41,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('comment/create','CommentController@store')->name('create-comment');
     Route::post('editcomment','CommentController@update')->name('update-comment');
     Route::post('deletecomment','CommentController@destroy')->name('delete-comment');
-    //reaction routes
+    
     Route::post('reaction/create','ReactionController@store')->name('create-reaction');
+    //
+    //search 
+    route::get('search-post','HomeController@search')->name('search-post');
+    Route::post('deletepost','PostController@destroy')->name('delete-post');
 
 });
 

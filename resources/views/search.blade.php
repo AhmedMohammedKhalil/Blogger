@@ -62,7 +62,7 @@
                         
                         <!-- Avatar -->
                         <div class="freelancer-avatar">
-                            <a href=""><img src="{{asset('storage/users/'.$unfollower[0]->id.'/images/'.$unfollower[0]->image)}}" alt=""></a>
+                            <a href=""><img src="{{asset('users/'.$unfollower[0]->id.'/images/'.$unfollower[0]->image)}}" alt=""></a>
                         </div>
 
                         <!-- Name -->

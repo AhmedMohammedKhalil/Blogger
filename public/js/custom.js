@@ -120,8 +120,8 @@ $(document).ready(function(){
 	var pxShow = 300; // height on which the button will show
 	var scrollSpeed = 500; // how slow / fast you want the button to scroll to top.
 
-	$(window).scroll(function(){
-	 if($(window).scrollTop() >= pxShow){
+	$(window , '.full-page-content-inner').scroll(function(){
+	 if($(window , '.full-page-content-inner').scrollTop() >= pxShow){
 		$("#backtotop").addClass('visible');
 	 } else {
 		$("#backtotop").removeClass('visible');

@@ -22,6 +22,7 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
+            'type' => 'text',
             'content' => $this->faker->text(),
             'user_id' => $this->faker->numberBetween(1,20)
         ];

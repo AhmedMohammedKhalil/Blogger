@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
@@ -10,30 +11,33 @@ use App\Models\Post;
 use finfo;
 use GuzzleHttp\Psr7\UploadedFile;
 use App\Models\Media;
+use App\Models\Reaction;
 use App\Models\Tag;
+use App\Models\View;
+
 class PostController extends Controller
 {
     public function upload(Request $request)
     {
-        if(is_dir(public_path('storage\users\\'.$request->id.'\temp')) == false)
-            mkdir(public_path('storage/users/'.$request->id.'/temp'));
-        if($request->type == "images" && is_dir(public_path('storage\users\\'.$request->id.'\temp\images')) == false) 
-            mkdir(public_path('storage/users/'.$request->id.'/temp/images'));
-        else if(is_dir(public_path('storage\users\\'.$request->id.'\temp\files')) == false){
-            mkdir(public_path('storage/users/'.$request->id.'/temp/files'));
+        if(is_dir(public_path('users\\'.$request->id.'\temp')) == false)
+            File::makeDirectory(public_path('users/'.$request->id.'/temp'));
+        if($request->type == "images" && is_dir(public_path('users\\'.$request->id.'\temp\images')) == false) 
+            File::makeDirectory(public_path('users/'.$request->id.'/temp/images'));
+        else if(is_dir(public_path('users\\'.$request->id.'\temp\files')) == false){
+            File::makeDirectory(public_path('users/'.$request->id.'/temp/files'));
         }
         $file = $request->file('file');
         $fileName = $file->getClientOriginalName();
         if($request->type == "images")
-            $file->move(public_path('storage\users\\'.$request->id.'\temp\images'),$fileName);
+            $file->move(public_path('users\\'.$request->id.'\temp\images'),$fileName);
         else 
-            $file->move(public_path('storage\users\\'.$request->id.'\temp\files'),$fileName);
+            $file->move(public_path('users\\'.$request->id.'\temp\files'),$fileName);
         return response()->json(['success'=>$fileName]);
     }
     public function deleteFiles(Request $request)
     {
         $filename =  $request->data;
-        $path=public_path('storage\users\\'.$request->id);
+        $path=public_path('users\\'.$request->id);
         if($request->type == 'images')
             File::delete($path.'\temp\images\\'.$filename); 
         else 
@@ -51,8 +55,8 @@ class PostController extends Controller
         if($r->type != "text") {
             $flag = false;
             if($r->type == 'images') {
-                if(is_dir(public_path('storage\users\\'.Auth::user()->id.'\temp\images')) == true) {
-                    $imagespaths = public_path('storage\users\\'.Auth::user()->id.'\temp\images\*');
+                if(is_dir(public_path('users\\'.Auth::user()->id.'\temp\images')) == true) {
+                    $imagespaths = public_path('users\\'.Auth::user()->id.'\temp\images\*');
                     $images = glob($imagespaths);
                     if(count($images) == 0) {
                         $flag = true;
@@ -62,8 +66,8 @@ class PostController extends Controller
                 }
             }
             if($r->type == 'files') {
-                if(is_dir(public_path('storage\users\\'.Auth::user()->id.'\temp\files')) == true) {
-                    $imagespaths = public_path('storage\users\\'.Auth::user()->id.'\temp\files\*');
+                if(is_dir(public_path('users\\'.Auth::user()->id.'\temp\files')) == true) {
+                    $imagespaths = public_path('users\\'.Auth::user()->id.'\temp\files\*');
                     $images = glob($imagespaths);
                     if(count($images) == 0) 
                         $flag = true;
@@ -108,11 +112,11 @@ class PostController extends Controller
 
 
         if($r->type == "images") { 
-            $images = glob(public_path('storage\users\\'.Auth::user()->id.'\temp\images\*'));
-            $length = strlen(public_path('storage\users\\'.Auth::user()->id.'\temp\images'));
+            $images = glob(public_path('users\\'.Auth::user()->id.'\temp\images\*'));
+            $length = strlen(public_path('users\\'.Auth::user()->id.'\temp\images\\'));
             foreach($images as $image) {
                 $imageName = substr($image,$length);
-                $file_path = public_path('storage\users\\'.Auth::user()->id.'\temp\images\\').$imageName;
+                $file_path = public_path('users\\'.Auth::user()->id.'\temp\images\\').$imageName;
                 $finfo = new finfo(FILEINFO_MIME_TYPE);
                 $img =  new UploadedFile(
                             $imageName,
@@ -121,19 +125,19 @@ class PostController extends Controller
                             $file_path,
                             $finfo->file($file_path),         
                     );
-                if(is_dir(public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId)) == false){
-                    mkdir(public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId));
+                if(is_dir(public_path('users\\'.Auth::user()->id.'\posts\\'.$postId)) == false){
+                    File::makeDirectory(public_path('users\\'.Auth::user()->id.'\posts\\'.$postId));
                 }
-                if(is_dir(public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId.'\images')) == false){
-                    mkdir(public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId.'\images'));
+                if(is_dir(public_path('users\\'.Auth::user()->id.'\posts\\'.$postId.'\images')) == false){
+                    File::makeDirectory(public_path('users\\'.Auth::user()->id.'\posts\\'.$postId.'\images'));
                 }
                 
-                copy($img->getClientFilename(),public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId.'\images\\'.$imageName));
+                File::copy($img->getClientFilename(),public_path('users\\'.Auth::user()->id.'\posts\\'.$postId.'\images\\'.$imageName));
                 $imageUpload = new Media();
-                $imageUpload->media = public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId.'\images\\'.$imageName);
+                $imageUpload->media = $imageName;
                 $imageUpload->post_id = $postId;
                 $imageUpload->save();
-                $pa=public_path('storage\users\\'.Auth::user()->id);
+                $pa=public_path('users\\'.Auth::user()->id);
                 if (file_exists($pa)) {
                     File::delete($pa.'\temp\images\\'.$imageName); 
                 }
@@ -142,11 +146,11 @@ class PostController extends Controller
         }
 
         if($r->type == "files") { 
-            $files = glob(public_path('storage\users\\'.Auth::user()->id.'\temp\files\*'));
-            $length = strlen(public_path('storage\users\\'.Auth::user()->id.'\temp\files'));
+            $files = glob(public_path('users\\'.Auth::user()->id.'\temp\files\*'));
+            $length = strlen(public_path('users\\'.Auth::user()->id.'\temp\files\\'));
             foreach($files as $file) {
                 $fileName = substr($file,$length);
-                $file_path = public_path('storage\users\\'.Auth::user()->id.'\temp\files\\').$fileName;
+                $file_path = public_path('users\\'.Auth::user()->id.'\temp\files\\').$fileName;
                 $finfo = new finfo(FILEINFO_MIME_TYPE);
                 $f =  new UploadedFile(
                             $fileName,
@@ -155,28 +159,62 @@ class PostController extends Controller
                             $file_path,
                             $finfo->file($file_path),         
                     );
-                if(is_dir(public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId)) == false){
-                    mkdir(public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId));
+                if(is_dir(public_path('users\\'.Auth::user()->id.'\posts\\'.$postId)) == false){
+                    File::makeDirectory(public_path('users\\'.Auth::user()->id.'\posts\\'.$postId));
                 }
-                if(is_dir(public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId.'\files')) == false){
-                    mkdir(public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId.'\files'));
+                if(is_dir(public_path('users\\'.Auth::user()->id.'\posts\\'.$postId.'\files')) == false){
+                    File::makeDirectory(public_path('users\\'.Auth::user()->id.'\posts\\'.$postId.'\files'));
                 }
                 
-                copy($f->getClientFilename(),public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId.'\files\\'.$fileName));
+                File::copy($f->getClientFilename(),public_path('users\\'.Auth::user()->id.'\posts\\'.$postId.'\files\\'.$fileName));
                 $fileUpload = new Media();
-                $fileUpload->media = public_path('storage\users\\'.Auth::user()->id.'\posts\\'.$postId.'\files\\'.$fileName);
+                $fileUpload->media = $fileName;
                 $fileUpload->post_id = $postId;
                 $fileUpload->save();
-                $pa=public_path('storage\users\\'.Auth::user()->id);
+                $pa=public_path('users\\'.Auth::user()->id);
                 if (file_exists($pa)) {
                     File::delete($pa.'\temp\files\\'.$fileName); 
                 }
             }
 
         }
- 
-       
+        $posts = Post::where('id',$postId)->get();
+        $view = view('Common.Posts-comments',compact('posts'))->render();
+        return response()->json(['html' => $view]);
 
-        return \response()->json(['success'=>true]);
+    }
+
+
+
+    public function destroy(Request $request)
+    {
+        if($request->ajax()) {
+            $post = Post::find($request->post_id);
+            $post->tags()->detach();
+            foreach($post->reactions as $r) {
+                $reaction = Reaction::find($r->id);
+                $reaction->delete();
+            }
+            foreach($post->views as $v) {
+                $view = View::find($v->id);
+                $view->delete();
+            }
+            foreach($post->media as $m) {
+                $media = Media::find($m->id);
+                $media->delete();
+            }
+            foreach($post->comments as $c) {
+                foreach($c->reactions as $r) {
+                    $reaction = Reaction::find($r->id);
+                    $reaction->delete();
+                }
+                $comment = Comment::find($c->id);
+                $comment->delete();
+            }
+            File::delete(public_path('users/'.Auth::user()->id.'/posts/'.$post->id));
+            $post->delete();
+            return response()->json(['post_id' => $post->id]);
+        }
+        
     }
 }

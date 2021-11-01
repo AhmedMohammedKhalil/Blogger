@@ -116,7 +116,7 @@
 							@else
 								{{route('admin.dashboard')}}
 							@endif
-							"><div class="user-avatar"><img src="{{asset('/storage/users/'.Auth::user()->id.'/images/'.Auth::user()->image)}}" alt=""></div></a>
+							"><div class="user-avatar"><img src="{{asset('users/'.Auth::user()->id.'/images/'.Auth::user()->image)}}" alt=""></div></a>
 						</div>
 
 						<!-- Dropdown -->
@@ -127,7 +127,7 @@
 
 								<!-- User Name / Avatar -->
 								<div class="user-details">
-									<div class="user-avatar"><img src="{{asset('/storage/users/'.Auth::user()->id.'/images/'.Auth::user()->image)}}" alt=""></div>
+									<div class="user-avatar"><img src="{{asset('users/'.Auth::user()->id.'/images/'.Auth::user()->image)}}" alt=""></div>
 									<div class="user-name">
 										{{Auth::user()->name}}
 									</div>

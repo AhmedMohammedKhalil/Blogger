@@ -4,7 +4,7 @@
 
 @push('css')
     <style>
-        .add{
+        .add {
             text-align: center;
             display: block !important;
             width: 184px;
@@ -26,8 +26,8 @@
     </div>
     <div class="row">
         {{-- posts --}}
-        <div class="col-xl-12">
-            
+        <div class="col-md-12 col-lg-10 offset-lg-1 posts-comments">
+            @include('Common.Posts-comments')
         </div>
         {{--end posts--}}
         
@@ -178,7 +178,18 @@
 
 @push('js')
     <script>
-         $('.modal').on('show.bs.modal', (e) =>{
+        $('#searching').submit((e) => {
+            e.preventDefault();
+            axios.get('{{route('search-post')}}')
+            .then((res) => {
+                console.log(res.data.html);
+                $('.posts-comments > *').remove();
+                $('.posts-comments').append(res.data.html);
+            })
+        })
+    </script>
+    <script>
+         $('#modal-add-post').on('show.bs.modal', (e) =>{
             $(e.target).find('input.is-invalid').removeClass('is-invalid');
             $(e.target).find('span.invalid-feedback#text').remove();
             $(e.target).find('span.invalid-feedback#tags').remove();
@@ -256,7 +267,10 @@
                         $("#media > strong").html("Not Found Files Uploaded");
                     }
                 }else {
-                    window.location.replace("{{route('home')}}");
+                    $('#modal-add-post').modal('hide');
+                    $('.modal-backdrop').hide();
+                    $('.posts-comments').prepend(res.data.html);
+                   // window.location.replace("{{route('home')}}");
                 }
             })
         })

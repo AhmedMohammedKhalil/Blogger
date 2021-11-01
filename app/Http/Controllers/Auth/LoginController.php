@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 
 class LoginController extends Controller
 {
@@ -47,11 +48,11 @@ class LoginController extends Controller
         $user = User::where('email',$request['email_login'])->first();
 
         if($user) {
-            if (is_dir(public_path('storage/users/' . $user->id . '/images')) == false) {
-                mkdir(public_path('storage/users/'.$user->id ));
-                mkdir(public_path('storage/users/'.$user->id .'/images'));
+            if (is_dir(public_path('users/' . $user->id . '/images')) == false) {
+                File::makeDirectory(public_path('users/'.$user->id ));
+                File::makeDirectory(public_path('users/'.$user->id .'/images'));
 
-                copy(public_path('images/user_default.png'), public_path('storage/users/' .$user->id . '/images/user_default.png'));
+                File::copy(public_path('images/user_default.png'), public_path('users/' .$user->id . '/images/user_default.png'));
             }
         }
         $check = Auth::attempt(['email' => $request['email_login'], 'password' => $request['password_login']]);

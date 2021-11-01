@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 class RegisterController extends Controller
 {
@@ -70,10 +71,10 @@ class RegisterController extends Controller
                     'image' => "user_default.png"
                 ]);
                 $user = User::where('email',$request['email_register'])->first();
-                mkdir(public_path('storage/users/'.$user->id ));
-                mkdir(public_path('storage/users/'.$user->id .'/images'));
+                File::makeDirectory(public_path('users/'.$user->id ));
+                File::makeDirectory(public_path('users/'.$user->id .'/images'));
 
-                copy(public_path('images/user_default.png'), public_path('storage/users/' .$user->id . '/images/user_default.png'));
+                File::copy(public_path('images/user_default.png'), public_path('users/' .$user->id . '/images/user_default.png'));
    
                 Auth::attempt(['email' => $request['email_register'], 'password' => $request['password_register']]);
             }

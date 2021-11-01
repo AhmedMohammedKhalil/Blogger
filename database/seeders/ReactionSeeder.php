@@ -13,6 +13,6 @@ class ReactionSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \App\Models\Reaction::factory(20)->create();
     }
 }

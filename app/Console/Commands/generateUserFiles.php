@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 
 class generateUserFiles extends Command
 {
@@ -40,19 +41,18 @@ class generateUserFiles extends Command
     {
         $users = User::all();
         $flag = true;
+
         foreach($users as $user) {
-            if (is_dir(public_path('storage/users/' . $user->id . '/images')) == false) {
-                mkdir(public_path('storage/users/'.$user->id ));
-                mkdir(public_path('storage/users/'.$user->id .'/images'));
-                mkdir(public_path('storage/users/'.$user->id .'/posts'));
-                mkdir(public_path('storage/users/'.$user->id .'/temp'));
-                mkdir(public_path('storage/users/'.$user->id .'/temp/files'));
-                mkdir(public_path('storage/users/'.$user->id .'/temp/images'));
-
-
-                copy(public_path('images/user_default.png'), public_path('storage/users/' .$user->id . '/images/user_default.png'));
+            if (is_dir(public_path('users/' . $user->id)) == false) {
+                File::makeDirectory(public_path('users/'.$user->id ));
+                File::makeDirectory(public_path('users/'.$user->id .'/images'));
+                File::makeDirectory(public_path('users/'.$user->id .'/posts'));
+                File::makeDirectory(public_path('users/'.$user->id .'/temp'));
+                File::makeDirectory(public_path('users/'.$user->id .'/temp/files'));
+                File::makeDirectory(public_path('users/'.$user->id .'/temp/images'));
+                File::copy(public_path('images/user_default.png'), public_path('users/' .$user->id . '/images/user_default.png'));
             } else {
-                $this->error('  this folder '.public_path('storage\users\\'.$user->id.'\images').' is existed  ');
+                $this->error('  this folder '.public_path('users\\'.$user->id).' is existed  ');
                 $flag = false;
             }
         }

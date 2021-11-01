@@ -22,7 +22,9 @@ class ReactionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'reactionable_id' => $this->faker->numberBetween(1,20),
+            'by' => $this->faker->numberBetween(1,20),
+            'reactionable_type' => 'post'
         ];
     }
 }
