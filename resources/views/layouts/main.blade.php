@@ -19,7 +19,14 @@
 
         <style>
 
-            
+            @media (max-width: 992px) {
+                .full-page-sidebar .sidebar-container {
+                    padding: 0;
+                }
+            }
+            .full-page-sidebar .sidebar-container {
+                padding: 20px 40px 0
+            }
             .search-followers {
                 position: relative;
                 cursor: pointer;

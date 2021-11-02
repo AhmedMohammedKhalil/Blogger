@@ -33,20 +33,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('unfollow','FollowingController@unfollow')->name('unfollow');
     Route::post('follow','FollowerController@follow')->name('follow');
     Route::get('search','SearchController@index')->name('search');
-    Route::get('searching','SearchController@search')->name('searching');
+    Route::post('searching','SearchController@search')->name('searching');
     Route::post('upload','PostController@upload')->name('upload');
     Route::post('deletefiles','PostController@deleteFiles')->name('delete-files');
     Route::post('create-post', 'PostController@store')->name('create-post');
-    //comment routes
     Route::post('comment/create','CommentController@store')->name('create-comment');
     Route::post('editcomment','CommentController@update')->name('update-comment');
     Route::post('deletecomment','CommentController@destroy')->name('delete-comment');
-    
-    Route::post('reaction/create','ReactionController@store')->name('create-reaction');
-    //
-    //search 
-    route::get('search-post','HomeController@search')->name('search-post');
+    Route::post('reaction','ReactionController@store')->name('reaction');
+    route::post('search-post','HomeController@search')->name('search-post');
     Route::post('deletepost','PostController@destroy')->name('delete-post');
+    Route::get('/download/{id}','MediaController@download')->name('download');
+
 
 });
 

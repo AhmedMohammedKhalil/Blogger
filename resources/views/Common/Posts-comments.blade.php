@@ -249,8 +249,8 @@
                       </div>
                       @if ($post->user_id == Auth::user()->id)
                         <ul class="menu flex list-unstyled">
-                            <li style="display: none"><a href=""><i style="color: green"class="icon-line-awesome-edit"></i></a></li>
-                            <li><a href="" class="delete-post" id="dp-{{$post->id}}"><i style="color: darkred" class="icon-material-outline-delete"></i></a></li>
+                            <li style="display: none"><a href="javascript:void(0)"><i style="color: green"class="icon-line-awesome-edit"></i></a></li>
+                            <li><a href="javascript:void(0)" class="delete-post" id="dp-{{$post->id}}"><i style="color: darkred" class="icon-material-outline-delete"></i></a></li>
                         </ul>
                       @endif
                     </div>
@@ -266,13 +266,18 @@
                     @if ($post->media()->count() > 0 && $post->type == "images")
                         <div class="images flex text-align-center">
                             @if ($post->media()->count() == 1)
-                                <a href=""><img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$post->media->media)}}" alt=""></a>
+                                <img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$post->media->media)}}" alt="">
                             @else
-                                <div class="position-relative">
+                                {{-- <div class="position-relative">
                                     <a href=""><img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$post->media()->first()->media)}}" alt=""></a>
                                     <div class="position-absolute  more-images">
                                         <span>+</span><span>{{$post->media()->count() - 1}}</span>
                                     </div>
+                                </div> --}}
+                                <div class="slick">
+                                    @foreach ($post->media as $media)
+                                        <div><img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$media->media)}}" alt=""></div>
+                                    @endforeach
                                 </div>
                             @endif
                         </div>
@@ -281,7 +286,7 @@
                         @foreach ( $post->media as $media)
                             <div class="">
                                 <span>{{$media->media.' >> '}}</span>
-                                <a href="">Download</a>
+                                <a href="{{ route('download',$media) }}" target="blank">Download</a>
                             </div>
                         @endforeach
                     @endif
@@ -289,7 +294,7 @@
                   </div>
                   <div class="card-footer flex">
                     <div>
-                        <a href="javascript:void(0)" id="cr-{{$post->id}}" class="d-inline-block text-muted">
+                        <a href="javascript:void(0)" id="pr-{{$post->id}}" class="d-inline-block text-muted">
                             <strong >{{$post->reactions()->count()}}</strong> Likes</small>
                         </a>
                         <a href="javascript:void(0)" id="cc-{{$post->id}}" class="d-inline-block text-muted ml-3">
@@ -302,7 +307,7 @@
                         @endif
                     </div>
                     <ul class="list-unstyled list-inline media-detail flex" style="margin-bottom: 0">
-                        <li class=""><a class="like-post" id="lp-{{$post->id}}" href="">Like</a></li>
+                        <li class=""><a class="like-post" id="lp-{{$post->id}}" href="javascript:void(0)">Like</a></li>
                     </ul>
 
                   </div>
@@ -314,7 +319,7 @@
         <div class="container">   
             <div class="row">
                 <div class="col-sm-12">   
-                    <form id="addComment-{{$post->id}}" class="addcomments">
+                    <form id="addComment-{{$post->id}}"  action="javascript:void(0)" class="addcomments">
                         <h3 class="pull-left">New Comment</h3>
                         <button type="submit" form="addComment-{{$post->id}}" class="btn btn-normal pull-right">Submit</button>
                         <fieldset>
@@ -347,14 +352,20 @@
 
 @push('js')
     <script>
-        $('form.addcomments').submit((e) => {
+        $('.slick').slick({
+            dots: true,
+            infinite: true,
+            speed: 500,
+            fade: true,
+            cssEase: 'linear' 
+        });
+        $('body').on('submit','form.addcomments',(e) => {
             e.preventDefault();
             var id = $(e.target).attr('id');
             var post_id = id.match(/\d/g).join("");
             var comment = $('#'+'addc-'+post_id).val();
             axios.post('{{route('create-comment')}}',{'comment': comment, 'post_id': post_id})
             .then((res) => {
-                console.log(res);
                 $('#comments-'+post_id).append(res.data.html);
                 $('#cc-'+post_id+" > strong").html(res.data.ccounter)
                 $('#cv-'+post_id+" > strong").html(res.data.vcounter)
@@ -362,38 +373,45 @@
             })
         })
 
-        $('.comment-delete').click((e) => {
+        $('body').on('click','.comment-delete',(e) => {
             e.preventDefault();
             
             var id = $(e.currentTarget).attr('id');
             var comment_id = id.match(/\d/g).join("");
             axios.post('{{route('delete-comment')}}',{'comment_id': comment_id})
             .then((res) => {
-                console.log(res);
                 $('#'+comment_id).remove();
                 $('#cc-'+res.data.post_id+" strong").html(res.data.ccounter)
             })
         })
 
-        $('.delete-post').click((e) => {
+        $('body').on('click','.delete-post',(e) => {
             e.preventDefault();
             var id = $(e.currentTarget).attr('id');
             var post_id = id.match(/\d/g).join("");
             axios.post('{{route('delete-post')}}',{'post_id': post_id})
             .then((res) => {
-                console.log(res);
                 $('#p-c-'+post_id).remove();
             })
         })
 
-        $('.like-post').click((e) => {
+        $('body').on('click','.like-post',(e) => {
             e.preventDefault();
             var id = $(e.currentTarget).attr('id');
             var post_id = id.match(/\d/g).join("");
-            axios.post('{{route('delete-post')}}',{'post_id': post_id})
+            axios.post('{{route('reaction')}}',{'post_id': post_id,'reactionable_type':'post'})
             .then((res) => {
-                console.log(res);
-                $('#p-c-'+post_id).remove();
+                $('#pr-'+post_id+" strong").html(res.data.post_reactions_count)
+            })
+        })
+
+        $('body').on('click','.like-comment',(e) => {
+            e.preventDefault();
+            var id = $(e.currentTarget).attr('id');
+            var comment_id = id.match(/\d/g).join("");
+            axios.post('{{route('reaction')}}',{'comment_id': comment_id,'reactionable_type':'comment'})
+            .then((res) => {
+                $('#cr-'+comment_id).html('<i class="fa fa-thumbs-up"></i>'+res.data.comment_reactions_count)
             })
         })
 

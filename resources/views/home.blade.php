@@ -11,6 +11,14 @@
             margin: 0 auto 40px !important;
             border-radius: 27px !important;
         }
+        @media (max-width: 992px) {
+             .full-page-sidebar .sidebar-container {
+                 padding: 0;
+            }
+        }
+        .full-page-sidebar .sidebar-container {
+            padding: 20px 40px 0
+        }
     </style>
 @endpush
 
@@ -39,23 +47,17 @@
 
 @section('sidebar')
     <div class="sidebar-container">
-        <form id="searching" method="GET" action="{{route('searching')}}">
+        <form id="searching" method="GET" >
             @csrf
 
             <!-- Tags -->
-            <div class="sidebar-widget">
+            <div class="sidebar-widget mb-0" >
                 <h3>Tags</h3>
-                <select name="tags[]" class="selectpicker default" multiple data-selected-text-format="count" data-size="7" title="All Tags" >
-                    <option>Admin Support</option>
-                    <option>Customer Service</option>
-                    <option>Data Analytics</option>
-                    <option>Design & Creative</option>
-                    <option>Legal</option>
-                    <option>Software Developing</option>
-                    <option>IT & Networking</option>
-                    <option>Writing</option>
-                    <option>Translation</option>
-                    <option>Sales & Marketing</option>
+                <select name="tags[]" id="inputTags" multiple="multiple" style="height: 350px">
+                    @foreach ($tags as $tag)
+                        <option value="{{$tag->id}}">{{$tag->name}}</option>
+                    @endforeach
+
                 </select>
             </div>
 
@@ -178,11 +180,18 @@
 
 @push('js')
     <script>
+        
         $('#searching').submit((e) => {
             e.preventDefault();
-            axios.get('{{route('search-post')}}')
+            var tags=[];
+            var $el=$("#inputTags");
+            $el.find('option:selected').each(function(){
+                tags.push($(this).val());
+            });
+            console.log(tags)
+            axios.post('{{route('search-post')}}',{'tags':tags})
             .then((res) => {
-                console.log(res.data.html);
+                console.log(res);
                 $('.posts-comments > *').remove();
                 $('.posts-comments').append(res.data.html);
             })
