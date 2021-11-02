@@ -43,7 +43,7 @@
         <h3 class="page-title">Search Results</h3>
     <!-- Freelancers List Container -->
         <div class="freelancers-container freelancers-grid-layout margin-top-35 followrs">
-            @include('common.searchfollowers')
+            @include('Common.searchfollowers')
         </div>
     
     

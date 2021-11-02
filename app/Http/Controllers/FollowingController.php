@@ -15,9 +15,9 @@ class FollowingController extends Controller
             array_push($followings,User::where('id',$f->following_id)->first());
         }
         if(Auth::user()->role->id == '2')
-            return view('Auther.followings',compact('followings'));
+            return view('auther.followings',compact('followings'));
         else 
-            return view('Admin.followings',compact('followings'));    
+            return view('admin.followings',compact('followings'));    
     }
 
     public function unfollow(Request $r) {

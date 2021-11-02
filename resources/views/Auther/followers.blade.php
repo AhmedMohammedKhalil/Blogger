@@ -1,5 +1,5 @@
-@extends('Auther.layout')
+@extends('auther.layout')
 @section('title','Followers - ')
 @section('content')
-    @include('Common.Followers')
+    @include('Common.followers')
 @endsection

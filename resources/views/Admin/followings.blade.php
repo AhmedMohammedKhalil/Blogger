@@ -1,5 +1,5 @@
-@extends('Admin.layout')
+@extends('admin.layout')
 @section('title','Followings - ')
 @section('content')
-    @include('Common.Followings')
+    @include('Common.followings')
 @endsection

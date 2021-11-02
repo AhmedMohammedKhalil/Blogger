@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        View::composer(['Auther.*','Admin.*'], function( $view )
+        View::composer(['auther.*','admin.*'], function( $view )
         {
             $followersCount = Follower::where('following_id',Auth::user()->id)->count();
             $view->with( 'followersCount', $followersCount );

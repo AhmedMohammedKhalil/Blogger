@@ -1,5 +1,5 @@
-@extends('Auther.layout')
+@extends('auther.layout')
 @section('title','Settings - ')
 @section('content')
-    @include('Common.Settings')
+    @include('Common.settings')
 @endsection

@@ -22,13 +22,13 @@ Route::middleware(['guest'])->group(function () {
 
 
 Route::post('register','Auth\RegisterController@createUser')->name('register');
-Route::post('login','Auth\loginController@login')->name('login');
-Route::post('reset-password','Auth\loginController@changePassword')->name('reset-password');
+Route::post('login','Auth\LoginController@login')->name('login');
+Route::post('reset-password','Auth\LoginController@changePassword')->name('reset-password');
 //Auth::routes();
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('logout','Auth\loginController@Logout')->name('logout');
+    Route::get('logout','Auth\LoginController@Logout')->name('logout');
     Route::get('home', 'HomeController@index')->name('home');
     Route::post('unfollow','FollowingController@unfollow')->name('unfollow');
     Route::post('follow','FollowerController@follow')->name('follow');

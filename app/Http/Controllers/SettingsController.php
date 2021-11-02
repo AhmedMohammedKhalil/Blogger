@@ -18,9 +18,9 @@ class SettingsController extends Controller
 
         $auth = Auth::user()->role->name;
         if(Auth::user()->role->id == "1")
-            return view('Admin.settings',compact('auth'));
+            return view('admin.settings',compact('auth'));
         else 
-            return view('Auther.settings',compact('auth'));
+            return view('auther.settings',compact('auth'));
     }
 
     

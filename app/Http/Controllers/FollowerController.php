@@ -25,9 +25,9 @@ class FollowerController extends Controller
             array_push($followers,[User::find($follower->user_id),$follow]);
         }
         if(Auth::user()->role->id == '2')
-            return view('Auther.followers',compact('followers'));
+            return view('auther.followers',compact('followers'));
         else 
-            return view('Admin.followers',compact('followers'));
+            return view('admin.followers',compact('followers'));
 
     }
 
