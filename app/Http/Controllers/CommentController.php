@@ -61,9 +61,9 @@ class CommentController extends Controller
                 $reaction->delete();
             }
             $post = Post::find($comment->post_id);
-            $ccounter = $post->comments->count();
             $post_id = $post->id;
             $comment->delete();
+            $ccounter = $post->comments->count();
             return response()->json(['ccounter' => $ccounter , 'post_id' => $post_id]);
         }
         

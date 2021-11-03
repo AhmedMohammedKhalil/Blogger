@@ -178,9 +178,13 @@ class PostController extends Controller
             }
 
         }
+        
+        $tags = Tag::all();
         $posts = Post::where('id',$postId)->get();
         $view = view('Common.Posts-comments',compact('posts'))->render();
-        return response()->json(['html' => $view]);
+        $viewtags = view('Common.tags',compact('tags'))->render();
+
+        return response()->json(['html' => $view,'tagshtml' => $viewtags]);
 
     }
 
@@ -211,9 +215,19 @@ class PostController extends Controller
                 $comment = Comment::find($c->id);
                 $comment->delete();
             }
-            File::delete(public_path('users/'.Auth::user()->id.'/posts/'.$post->id));
+            File::DeleteDirectory(public_path('users/'.Auth::user()->id.'/posts/'.$post->id));
+            //File::delete(public_path('users/'.Auth::user()->id.'/posts/'.$post->id));
             $post->delete();
-            return response()->json(['post_id' => $post->id]);
+            $tags = Tag::all();
+            foreach($tags as $tag) {
+                if($tag->posts()->count() == 0)
+                {
+                    $tag->delete();
+                }
+            }
+            $tags = Tag::all();
+            $viewtags = view('Common.tags',compact('tags'))->render();
+            return response()->json(['post_id' => $post->id,'tagshtml' => $viewtags]);
         }
         
     }

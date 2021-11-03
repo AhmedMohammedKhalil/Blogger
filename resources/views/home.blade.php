@@ -54,10 +54,7 @@
             <div class="sidebar-widget mb-0" >
                 <h3>Tags</h3>
                 <select name="tags[]" id="inputTags" multiple="multiple" style="height: 350px">
-                    @foreach ($tags as $tag)
-                        <option value="{{$tag->id}}">{{$tag->name}}</option>
-                    @endforeach
-
+                    @include('Common.tags')
                 </select>
             </div>
 
@@ -285,7 +282,8 @@
                     $('#modal-add-post').modal('hide');
                     $('.modal-backdrop').hide();
                     $('.posts-comments').prepend(res.data.html);
-                   // window.location.replace("{{route('home')}}");
+                    $('#inputTags >*').remove();
+                    $('#inputTags').append(res.data.tagshtml)
                 }
             })
         })
