@@ -76,106 +76,106 @@
 
 
 @section('modal')
-<div class="modal fade" id="modal-add-post" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title" id="exampleModalCenterTitle">Add Post</h2>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form action="#" class="row" id="create-post" method="post">
-                @csrf
-                <div class="col-xl-12">
-                    <div class="submit-field">
-                    <textarea cols="30" rows="1" name="text" id="textpost" class="with-border" placeholder="What's on your mind, {{Auth::user()->name}} ?"></textarea>
-                    </div>
-                </div>
-                <div class="col-xl-12">
-                    <div class="submit-field">
-                        <h5>What Tags You Need?</h5>
-                        <div class="keywords-container">
-                            <div class="keyword-input-container">
-                                <input type="text" name ="tags" class="keyword-input with-border" placeholder="Add Tags">
-                                <button type="button" class="keyword-input-button ripple-effect"><i class="icon-material-outline-add"></i></button>
-                            </div>
-                            <div class="keywords-list" style="height: auto;"><!-- keywords go here --></div>
-                            <div class="clearfix"></div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-xl-12">
-                    <div class="submit-field ">
-                        <h5>Choose Attachment Type?</h5>
-                        <div class="feedback-yes-no margin-top-0" style="text-align: center">
-                            <div class="radio">
-                                <input id="none" name="radio" type="radio" checked value="text">
-                                <label for="none"><span class="radio-label"></span> Text</label>
-                            </div>
-
-                            <div class="radio">
-                                <input id="images" name="radio" type="radio" value="images">
-                                <label for="images"><span class="radio-label"></span> Images</label>
-                            </div>
-
-                            <div class="radio">
-                                <input id="documents" name="radio" type="radio" value="documents">
-                                <label for="documents"><span class="radio-label"></span> Documents</label>
-                            </div>
+    <div class="modal fade" id="modal-add-post" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalCenterTitle">Add Post</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form action="#" class="row" id="create-post" method="post">
+                    @csrf
+                    <div class="col-xl-12">
+                        <div class="submit-field">
+                        <textarea cols="30" rows="1" name="text" id="textpost" class="with-border" placeholder="What's on your mind, {{Auth::user()->name}} ?"></textarea>
                         </div>
                     </div>
-                </div>
-            </form>
-                
-            <div class="col-xl-12">
-                <div class="submit-field">
-                    <form method="post" action="{{route('upload',['id' => Auth::user()->id, 'type' => 'images','_token' => csrf_token() ])}}" enctype="multipart/form-data" class="dropzone" id="dropzone-images">
-                        <div class="dz-message">
-                            <div class="col-xs-12">
-                                <div class="message">
-                                    <p>Drop Images here or Click to Upload</p>
-                                    <p>Maximum Images are 10</p>
+                    <div class="col-xl-12">
+                        <div class="submit-field">
+                            <h5>What Tags You Need?</h5>
+                            <div class="keywords-container">
+                                <div class="keyword-input-container">
+                                    <input type="text" name ="tags" class="keyword-input with-border" placeholder="Add Tags">
+                                    <button type="button" class="keyword-input-button ripple-effect"><i class="icon-material-outline-add"></i></button>
+                                </div>
+                                <div class="keywords-list" style="height: auto;"><!-- keywords go here --></div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="submit-field ">
+                            <h5>Choose Attachment Type?</h5>
+                            <div class="feedback-yes-no margin-top-0" style="text-align: center">
+                                <div class="radio">
+                                    <input id="none" name="radio" type="radio" checked value="text">
+                                    <label for="none"><span class="radio-label"></span> Text</label>
+                                </div>
+
+                                <div class="radio">
+                                    <input id="images" name="radio" type="radio" value="images">
+                                    <label for="images"><span class="radio-label"></span> Images</label>
+                                </div>
+
+                                <div class="radio">
+                                    <input id="documents" name="radio" type="radio" value="documents">
+                                    <label for="documents"><span class="radio-label"></span> Documents</label>
                                 </div>
                             </div>
                         </div>
-                    </form> 
-                    <span class="invalid-feedback errors-images" id="images" role="alert">
-                        <strong></strong>
-                    </span>
-
-                </div>
-            </div>
-            <div class="col-xl-12">
-                <div class="submit-field">
-                    <form method="post" action="{{route('upload',['id' => Auth::user()->id, 'type' => 'files','_token'=>csrf_token() ])}}" enctype="multipart/form-data" class="dropzone" id="dropzone-files">
-
-                        <div class="dz-message">
-                            <div class="col-xs-12">
-                                <div class="message">
-                                    <p>Drop files here or Click to Upload</p>
-                                    <p>Maximum Files are 10</p>
+                    </div>
+                </form>
+                    
+                <div class="col-xl-12">
+                    <div class="submit-field">
+                        <form method="post" action="{{route('upload',['id' => Auth::user()->id, 'type' => 'images','_token' => csrf_token() ])}}" enctype="multipart/form-data" class="dropzone" id="dropzone-images">
+                            <div class="dz-message">
+                                <div class="col-xs-12">
+                                    <div class="message">
+                                        <p>Drop Images here or Click to Upload</p>
+                                        <p>Maximum Images are 10</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </form> 
-                    <span class="invalid-feedback errors-files" id="files" role="alert">
-                        <strong></strong>
-                    </span>
+                        </form> 
+                        <span class="invalid-feedback errors-images" id="images" role="alert">
+                            <strong></strong>
+                        </span>
+
+                    </div>
                 </div>
+                <div class="col-xl-12">
+                    <div class="submit-field">
+                        <form method="post" action="{{route('upload',['id' => Auth::user()->id, 'type' => 'files','_token'=>csrf_token() ])}}" enctype="multipart/form-data" class="dropzone" id="dropzone-files">
+
+                            <div class="dz-message">
+                                <div class="col-xs-12">
+                                    <div class="message">
+                                        <p>Drop files here or Click to Upload</p>
+                                        <p>Maximum Files are 10</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form> 
+                        <span class="invalid-feedback errors-files" id="files" role="alert">
+                            <strong></strong>
+                        </span>
+                    </div>
+                </div>
+                <span class="invalid-feedback" id="media" role="alert">
+                    <strong></strong>
+                </span>
             </div>
-            <span class="invalid-feedback" id="media" role="alert">
-                <strong></strong>
-            </span>
+            <div class="modal-footer">
+            <button type="submit" form="create-post" class="btn btn-primary">Add Post</button>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="submit" form="create-post" class="btn btn-primary">Add Post</button>
         </div>
-      </div>
     </div>
-  </div>
 @endsection
 
 @push('js')
@@ -198,6 +198,8 @@
         })
     </script>
     <script>
+        var postId; 
+
          $('#modal-add-post').on('show.bs.modal', (e) =>{
             $(e.target).find('input.is-invalid').removeClass('is-invalid');
             $(e.target).find('span.invalid-feedback#text').remove();
@@ -212,13 +214,14 @@
             $('#dropzone-files').hide();
             $('#dropzone-images').hide();
             $('.dz-message').css('display','block');           
-            $(e.target).find('input#text').prop('checked',true);
+            $(e.target).find('input#none').prop('checked',true);
             counter = 0;
             counter2 = 0;
             arr = [];
             arr1 = [];
 
         })
+
         $('input[name=tags]').on('click',(e) => {
             if($('input[name=tags]').hasClass('is-invalid')) {
                 $('input[name=tags]').removeClass('is-invalid');
@@ -243,7 +246,10 @@
                     '</span>'
             );
         } 
+         
+        /*create*/
         var counter = 0,counter2 = 0;
+        var public_path = '{{ asset('public') }}';
         var type = "text";
         $('#create-post').submit(function(e) {
             e.preventDefault();
@@ -259,7 +265,7 @@
                 var errors = res.data.errors;
                 if(errors) {
                     console.log(errors)
-                    if(errors[0].text[0]){
+                    if(errors[0].text){
                          $('textarea[name="text"]').addClass('is-invalid');
                             $('textarea[name="text"]').parent().append(
                                 '<span id="text" class="invalid-feedback d-block px-2" role="alert">'+
@@ -267,7 +273,7 @@
                                 '</span>'
                         );
                     }
-                    if(errors[0].tags[0]){
+                    if(errors[0].tags){
                         messageError('tags',errors[0].tags[0]);
                     }
                     if(errors.media){
@@ -540,5 +546,9 @@
             },
 
         };
+
+        /*edit*/
+        
+
     </script>
 @endpush

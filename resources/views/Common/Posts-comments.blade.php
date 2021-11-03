@@ -249,14 +249,14 @@
                       </div>
                       @if ($post->user_id == Auth::user()->id)
                         <ul class="menu flex list-unstyled">
-                            <li style="display: none"><a href="javascript:void(0)"><i style="color: green"class="icon-line-awesome-edit"></i></a></li>
+                            <li><a href="javascript:void(0)" class="edit-post d-none" id="ep-{{$post->id}}"><i style="color: green"class="icon-line-awesome-edit"></i></a></li>
                             <li><a href="javascript:void(0)" class="delete-post" id="dp-{{$post->id}}"><i style="color: darkred" class="icon-material-outline-delete"></i></a></li>
                         </ul>
                       @endif
                     </div>
                 
                     <p style="margin-bottom : 2px">
-                        {{$post->content}}
+                        {!!$post->content!!}
                     </p>
                     <div class="flex" style="justify-content: flex-start">
                         @foreach ($post->tags as $tag)
@@ -266,7 +266,9 @@
                     @if ($post->media()->count() > 0 && $post->type == "images")
                         <div class="images flex text-align-center">
                             @if ($post->media()->count() == 1)
-                                <img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$post->media->media)}}" alt="">
+                                @foreach ($post->media as $media)
+                                    <img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$media->media)}}" alt="">
+                                @endforeach
                             @else
                                 {{-- <div class="position-relative">
                                     <a href=""><img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$post->media()->first()->media)}}" alt=""></a>
@@ -350,6 +352,8 @@
 
 
 
+
+
 @push('js')
     <script>
         $('.slick').slick({
@@ -394,6 +398,8 @@
                 $('#p-c-'+post_id).remove();
             })
         })
+        
+
 
         $('body').on('click','.like-post',(e) => {
             e.preventDefault();
@@ -414,6 +420,7 @@
                 $('#cr-'+comment_id).html('<i class="fa fa-thumbs-up"></i>'+res.data.comment_reactions_count)
             })
         })
+       
 
     </script>
 @endpush

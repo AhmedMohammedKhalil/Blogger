@@ -73,6 +73,10 @@ class RegisterController extends Controller
                 $user = User::where('email',$request['email_register'])->first();
                 File::makeDirectory(public_path('users/'.$user->id ));
                 File::makeDirectory(public_path('users/'.$user->id .'/images'));
+                File::makeDirectory(public_path('users/'.$user->id .'/posts'));
+                File::makeDirectory(public_path('users/'.$user->id .'/temp'));
+                File::makeDirectory(public_path('users/'.$user->id .'/temp/files'));
+                File::makeDirectory(public_path('users/'.$user->id .'/temp/images'));
 
                 File::copy(public_path('images/user_default.png'), public_path('users/' .$user->id . '/images/user_default.png'));
    

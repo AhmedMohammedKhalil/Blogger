@@ -25,7 +25,7 @@ Route::post('register','Auth\RegisterController@createUser')->name('register');
 Route::post('login','Auth\LoginController@login')->name('login');
 Route::post('reset-password','Auth\LoginController@changePassword')->name('reset-password');
 //Auth::routes();
-
+                 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('logout','Auth\LoginController@Logout')->name('logout');
@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('searching','SearchController@search')->name('searching');
     Route::post('upload','PostController@upload')->name('upload');
     Route::post('deletefiles','PostController@deleteFiles')->name('delete-files');
+    Route::post('getfiles','PostController@getFiles')->name('getfiles');
     Route::post('create-post', 'PostController@store')->name('create-post');
     Route::post('comment/create','CommentController@store')->name('create-comment');
     Route::post('editcomment','CommentController@update')->name('update-comment');
@@ -43,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('reaction','ReactionController@store')->name('reaction');
     route::post('search-post','HomeController@search')->name('search-post');
     Route::post('deletepost','PostController@destroy')->name('delete-post');
+    Route::post('editpost','PostController@edit')->name('edit-post');
     Route::get('/download/{id}','MediaController@download')->name('download');
 
 
