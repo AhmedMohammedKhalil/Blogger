@@ -20,20 +20,23 @@ class CommentController extends Controller
         $comment->user_id = Auth::user()->id;
         $comment->save();
         $commcount=Post::find($request->post_id)->comments->count();
-        $user = Auth::user();
-        //here we get post owner to make shure that commented user is not post owner
+        //here we get post owner to make sure that commented user is not post owner
+        $user=Auth::user();
         $post_owner_id=Post::find($request->post_id)->user_id;
-        if($user->id != $post_owner_id )
+        $is_viewer=View::where(['by'=>$user->id ,'post_id'=>$request->post_id])->count();
+        if($is_viewer==0)
         {
-            $view= new View;
-            $view->post_id=$request->post_id;
-            $view->by=$user->id;
-            $view->save();
+            if($user->id != $post_owner_id )
+            {
+                $view= new View;
+                $view->post_id=$request->post_id;
+                $view->by=$user->id;
+                $view->save();
+            }
         }
         $vcount = Post::find($request->post_id)->views->count();
         $view = view('Common.comments',compact('comment','user'))->render();
         return response()->json(['html'=>$view,'ccounter'=>$commcount,'vcounter' => $vcount]);
-
 
     }
 
