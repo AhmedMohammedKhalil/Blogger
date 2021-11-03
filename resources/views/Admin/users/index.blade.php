@@ -25,20 +25,18 @@
 
 											<!-- Logo -->
 											<a href="#" class="job-listing-company-logo">
-												<img src="{{asset('users/'.$u->id.'/images/'.$u->image)}}" alt="">
+												<img src="{{asset('users/'.$u->id.'/images/'.$u->image)}}" alt="" style="border-radius:50%">
 											</a>
 
 											<!-- Details -->
 											<div class="job-listing-description">
 												<h3 class="job-listing-title"><a>{{$u->name}}</a></h3>
-
 												<!-- Job Listing Footer -->
 												<div class="job-listing-footer">
 													<ul>
 														<li><i class="icon-material-outline-email"></i>{{$u->email}}</li>
 														<li><i class="icon-material-outline-assignment"></i>Posts &nbsp {{$u->posts()->count()}}</li>
-														<li><i class="icon-material-outline-person-pin"></i> </li>
-														<li><i class="icon-material-outline-access-time"></i> {{$u->role->name}}</li>
+														<li><i class="icon-material-outline-person-pin"></i> {{$u->role->name}}</li>
 													</ul>
 												</div>
 											</div>

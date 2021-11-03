@@ -58,12 +58,12 @@ class User extends Authenticatable
 
     public function views()
     {
-        return $this->hasMany('App\Models\View');
+        return $this->hasMany('App\Models\View','by');
     }
 
     public function followings()
     {
-        return $this->hasMany('App\Models\Follower');
+        return $this->hasMany('App\Models\Follower','user_id');
     }
 
     public function scopeAuther($query)
