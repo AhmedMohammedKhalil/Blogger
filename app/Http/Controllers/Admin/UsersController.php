@@ -31,7 +31,7 @@ class UsersController extends Controller
         {
             $user->followings()->delete();
         }
-
+        
         if($user->views->count()>0)
         {
             $user->views()->delete();
@@ -61,8 +61,8 @@ class UsersController extends Controller
                 $p->delete();
             }
         }
-        if (is_dir(public_path('storage\users\\'.$user->id)) == true) {
-            File::delete(public_path('users/'.$user->id));
+        if (is_dir(public_path('users/'. $user->id)) == true) {
+            File::deleteDirectory(public_path('users/'.$user->id));
         }
         $user->delete();
         return redirect(route('admin.user.index'));
