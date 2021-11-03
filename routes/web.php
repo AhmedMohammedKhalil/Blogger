@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\MyEvent;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +25,9 @@ Route::middleware(['guest'])->group(function () {
 Route::post('register','Auth\RegisterController@createUser')->name('register');
 Route::post('login','Auth\LoginController@login')->name('login');
 Route::post('reset-password','Auth\LoginController@changePassword')->name('reset-password');
-//Auth::routes();
+route::get('/event',function() {
+    event(new MyEvent('hello world'));
+});
                  
 
 Route::middleware(['auth'])->group(function () {

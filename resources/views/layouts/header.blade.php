@@ -163,7 +163,20 @@
 
 
 @push('js')
+
 	<script>
+		// Enable pusher logging - don't include this in production
+		Pusher.logToConsole = true;
+
+		var pusher = new Pusher('7d5417edfac9cdce82e2', {
+		cluster: 'eu'
+		});
+
+		var channel = pusher.subscribe('my-channel');
+		channel.bind('my-event', function(data) {
+			console.log(data);
+		});
+	
 		$('.search').click(function () {
 			window.location.replace("{{route('search')}}");
 		})
