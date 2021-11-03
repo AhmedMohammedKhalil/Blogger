@@ -228,6 +228,19 @@
         .card-footer .media-detail li a:hover {
             background-color: #555555;
         }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3,auto);
+            grid-column-gap: 30px
+        }
+
+        @media (max-width:426px) {
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(1,auto);
+                grid-column-gap: 30px
+            }
+        }
     </style>
 @endpush
 
@@ -270,13 +283,7 @@
                                     <img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$media->media)}}" alt="">
                                 @endforeach
                             @else
-                                {{-- <div class="position-relative">
-                                    <a href=""><img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$post->media()->first()->media)}}" alt=""></a>
-                                    <div class="position-absolute  more-images">
-                                        <span>+</span><span>{{$post->media()->count() - 1}}</span>
-                                    </div>
-                                </div> --}}
-                                <div class="slick">
+                                <div class="grid">
                                     @foreach ($post->media as $media)
                                         <div><img src="{{asset('users/'.$post->user->id.'/posts/'.$post->id.'/images/'.$media->media)}}" alt=""></div>
                                     @endforeach
@@ -385,7 +392,7 @@
             axios.post('{{route('delete-comment')}}',{'comment_id': comment_id})
             .then((res) => {
                 $('#'+comment_id).remove();
-                $('#cc-'+res.data.post_id+" strong").html(res.data.ccounter)
+                $('#cc-'+res.data.post_id+" > strong").html(res.data.ccounter)
             })
         })
 
@@ -396,6 +403,8 @@
             axios.post('{{route('delete-post')}}',{'post_id': post_id})
             .then((res) => {
                 $('#p-c-'+post_id).remove();
+                $('#inputTags >*').remove();
+                $('#inputTags').append(res.data.tagshtml)
             })
         })
         
