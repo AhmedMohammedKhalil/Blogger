@@ -173,6 +173,33 @@
         </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="modal-update-comment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h2 class="modal-title" id="exampleModalCenterTitle">update comment</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form action="#" class="row" id="update-comment" method="post">
+                    @csrf
+                    <div class="col-xl-12">
+                        <div class="submit-field">
+                        <textarea cols="30" rows="1" name="text" id="textcomment" class="with-border" placeholder="What's on your mind, {{Auth::user()->name}} ?"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="update-comment" class="btn btn-primary">Update Comment</button>
+            </div>
+        </div>
+        </div>
+    </div>
 @endsection
 
 @push('js')

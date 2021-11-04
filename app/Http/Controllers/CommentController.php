@@ -40,15 +40,22 @@ class CommentController extends Controller
 
     }
 
-
+    public function edit(Request $request)
+    {
+         if($request->ajax()) {
+            $comment = Comment::find($request->comment_id);
+            return response()->json(['comment'=>$comment]);
+         }
+    }
 
     public function update(Request $request)
     {
          if($request->ajax()) {
-            $comment = Comment::find($request->id);
+            $comment = Comment::find($request->comment_id);
             $comment->comment = $request->comment;
             $comment->save();
-            return response()->json(['comment'=>$comment],200);
+            //$view = View('Common.comments',compact('comment'))->render();
+            return response()->json(['comment'=>$comment]);
          }
     }
 
