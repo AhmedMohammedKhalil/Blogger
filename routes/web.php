@@ -1,6 +1,7 @@
 <?php
 
 use App\Events\MyEvent;
+use App\Events\PostNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ Route::post('register','Auth\RegisterController@createUser')->name('register');
 Route::post('login','Auth\LoginController@login')->name('login');
 Route::post('reset-password','Auth\LoginController@changePassword')->name('reset-password');
 route::get('/event',function() {
-    event(new MyEvent('hello world'));
+    event(new PostNotification());
 });
                  
 

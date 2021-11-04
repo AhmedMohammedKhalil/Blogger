@@ -49,7 +49,7 @@ class LoginController extends Controller
 
         if($user) {
             if (is_dir(public_path('users/' . $user->id . '/images')) == false) {
-                File::makeDirectory(public_path('users/'.$user->id ));
+                //File::makeDirectory(public_path('users/'.$user->id ));
                 File::makeDirectory(public_path('users/'.$user->id .'/images'));
 
                 File::copy(public_path('images/user_default.png'), public_path('users/' .$user->id . '/images/user_default.png'));

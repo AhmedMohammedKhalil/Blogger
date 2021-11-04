@@ -171,9 +171,9 @@
 		var pusher = new Pusher('7d5417edfac9cdce82e2', {
 		cluster: 'eu'
 		});
-
-		var channel = pusher.subscribe('my-channel');
-		channel.bind('my-event', function(data) {
+        var id={!!Auth::user()->id!!}
+		var channel = pusher.subscribe('post-react-'+id);
+		channel.bind('postReact', function(data) {
 			console.log(data);
 		});
 	
