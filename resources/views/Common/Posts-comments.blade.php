@@ -256,7 +256,7 @@
                       <div class="flex">
                         <img src="{{asset('users/'.$post->user->id.'/images/'.$post->user->image)}}" class="d-block ui-w-40 rounded-circle" alt="">
                         <div class="media-body ml-3">
-                          {{$post->user->name}}
+                          <a href="{{route('userprofile',['id' => $post->user->id])}}" style="    color: black; font-size:20px ">{{$post->user->name}}</a>
                           <div class="text-muted small">{{$post->updated_at->diffForHumans()}}</div>
                         </div>
                       </div>
@@ -268,7 +268,7 @@
                       @endif
                     </div>
                 
-                    <p style="margin-bottom : 2px">
+                    <p style="margin-bottom : 2px;">
                         {!!$post->content!!}
                     </p>
                     <div class="flex" style="justify-content: flex-start">
@@ -363,13 +363,7 @@
 
 @push('js')
     <script>
-        $('.slick').slick({
-            dots: true,
-            infinite: true,
-            speed: 500,
-            fade: true,
-            cssEase: 'linear' 
-        });
+        
         $('body').on('submit','form.addcomments',(e) => {
             e.preventDefault();
             var id = $(e.target).attr('id');
@@ -384,6 +378,36 @@
             })
         })
 
+        
+
+        var comment_id ="";
+        $('body').on('click','.comment-edit',(e) => {
+            e.preventDefault();
+            var id = $(e.currentTarget).attr('id');
+            comment_id = id.match(/\d/g).join("");
+            axios.post('{{route('get-comment')}}',{'comment_id': comment_id})
+            .then((res) => {
+                console.log(res)
+                $('#textcomment').val(res.data.comment.comment)
+                comment_id = res.data.comment.id;
+                $('#modal-update-comment').modal('show')
+            })
+        })
+
+        $('body').on('submit','form#update-comment',(e) => {
+            e.preventDefault();
+            console.log($('#textcomment').val())
+            axios.post('{{route('update-comment')}}',{'comment': $('#textcomment').val(), 'comment_id': comment_id})
+            .then((res) => {
+                console.log(comment_id)
+                $("#c-"+comment_id+" > *").remove();
+                $("#c-"+comment_id).append('<p>'+res.data.comment.comment+'</p>')
+                $('#modal-update-comment').modal('hide')
+                
+            })
+        })
+
+
         $('body').on('click','.comment-delete',(e) => {
             e.preventDefault();
             
@@ -395,6 +419,7 @@
                 $('#cc-'+res.data.post_id+" > strong").html(res.data.ccounter)
             })
         })
+
 
         $('body').on('click','.delete-post',(e) => {
             e.preventDefault();

@@ -232,6 +232,12 @@ class PostController extends Controller
         
     }
 
+
+    public function show(Request $r) {
+        $posts = Post::find($r->id);
+        return view('Common.showpost',compact('posts'));
+    }
+
     public function edit(Request $r) {
 
         $post = Post::find($r->post_id);

@@ -29,7 +29,7 @@ Route::post('reset-password','Auth\LoginController@changePassword')->name('reset
 route::get('/event',function() {
     event(new PostNotification());
 });
-                 
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('logout','Auth\LoginController@Logout')->name('logout');
@@ -43,13 +43,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('getfiles','PostController@getFiles')->name('getfiles');
     Route::post('create-post', 'PostController@store')->name('create-post');
     Route::post('comment/create','CommentController@store')->name('create-comment');
-    Route::post('editcomment','CommentController@update')->name('update-comment');
+    Route::post('updatecomment','CommentController@update')->name('update-comment');
     Route::post('deletecomment','CommentController@destroy')->name('delete-comment');
     Route::post('reaction','ReactionController@store')->name('reaction');
     route::post('search-post','HomeController@search')->name('search-post');
     Route::post('deletepost','PostController@destroy')->name('delete-post');
     Route::post('editpost','PostController@edit')->name('edit-post');
     Route::get('/download/{id}','MediaController@download')->name('download');
+    Route::get('userprofile','ProfileController@userprofile')->name('userprofile');
+    Route::get('showpost','PostController@show')->name('showpost');
+    Route::post('editcomment','CommentController@edit')->name('get-comment');
 
 
 });
