@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostFollowerNotification;
 use App\Models\Comment;
+use App\Models\Follower;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
@@ -11,9 +13,11 @@ use App\Models\Post;
 use finfo;
 use GuzzleHttp\Psr7\UploadedFile;
 use App\Models\Media;
+use App\Models\Notification;
 use App\Models\Reaction;
 use App\Models\Tag;
 use App\Models\View;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -179,6 +183,29 @@ class PostController extends Controller
 
         }
         
+        $followers = Follower::where('following_id',Auth::user()->id)->get();
+        foreach($followers as $follower) {
+            $notify = new Notification();
+            $notify->user_id = $follower->user_id;
+            $notify->type = 'post';
+            $array = [
+                'user' => Auth::user(),
+                'post' => $post
+            ];
+            $notify->data = json_encode($array);
+            $notify->save();
+    
+            $data = [
+                'n_id' => $notify->id,
+                'follower_id' => $follower->user_id,
+                'post_id' => $post->id,
+                'type' => 'post',
+                'user' => Auth::user(),
+                //'created_at' => $post->created_at->diffForHumans()
+            ];
+            broadcast(new PostFollowerNotification($data))->toOthers();
+        }
+
         $tags = Tag::all();
         $posts = Post::where('id',$postId)->get();
         $view = view('Common.Posts-comments',compact('posts'))->render();
@@ -234,10 +261,19 @@ class PostController extends Controller
 
 
     public function show(Request $r) {
-        $posts = Post::find($r->id);
+        $notify = Notification::find($r->n_id);
+        if($notify->read_at == null) {
+            $notify->read_at = Carbon::now();
+            $notify->save();
+        } 
+        $posts = Post::where('id',$r->post_id)->get();
+        //dd($posts);
         return view('Common.showpost',compact('posts'));
     }
 
+
+
+    
     public function edit(Request $r) {
 
         $post = Post::find($r->post_id);

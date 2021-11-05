@@ -47,6 +47,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('deletecomment','CommentController@destroy')->name('delete-comment');
     Route::post('reaction','ReactionController@store')->name('reaction');
     route::post('search-post','HomeController@search')->name('search-post');
+    Route::post('readAllNotification','HomeController@readAllNotification')->name('readAllNotification');
+
     Route::post('deletepost','PostController@destroy')->name('delete-post');
     Route::post('editpost','PostController@edit')->name('edit-post');
     Route::get('/download/{id}','MediaController@download')->name('download');

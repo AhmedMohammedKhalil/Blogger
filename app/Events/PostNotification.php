@@ -24,16 +24,16 @@ class PostNotification implements ShouldBroadcast
     public $post_id;
     public $user;
     public $type;    //reaction
-    public $created_at;
+    public $n_id;
     
     public function __construct($data=[])
     {
       $this->owner_id=$data['owner_id'];
-      $this->owner_id='46';
       $this->user=$data['user'];
       $this->post_id=$data['post_id'];
       $this->type=$data['type'];
-      $this->created_at=$data['created_at'];
+      $this->n_id=$data['n_id'];
+
     }
 
     /**

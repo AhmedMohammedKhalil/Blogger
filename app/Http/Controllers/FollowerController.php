@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FollowingNotification;
 use Illuminate\Http\Request;
 use App\Models\Follower;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
@@ -37,6 +39,29 @@ class FollowerController extends Controller
             'user_id' => Auth::user()->id,
             'following_id' => $r->id
         ]);
+        $follower = Follower::where([
+            ['user_id','==',Auth::user()->id],
+            ['following_id','==', $r->id]
+        ])->first();
+        $user_id = $r->id;
+        $notify = new Notification();
+        $notify->user_id = $user_id;
+        $notify->type = 'follow';
+        $array = [
+            'user' => Auth::user(),
+            'follower' => $follower
+        ];
+        $notify->data = json_encode($array);
+        $notify->save();
+
+        $data = [
+            'n_id' => $notify->id,
+            'following_id' => $user_id,
+            'type' => 'follow',
+            'user' => Auth::user(),
+            //'created_at' => $follower->created_at->diffForHumans()
+        ];
+        broadcast(new FollowingNotification($data))->toOthers();
         return response()->json(['count' => $count]);
     }
 

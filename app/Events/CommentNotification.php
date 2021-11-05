@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CommantNotification implements ShouldBroadcast
+class CommentNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -22,8 +22,8 @@ class CommantNotification implements ShouldBroadcast
     public $owner_id;
     public $post_id;
     public $user;
-    public $type;    //comment
-    public $created_at;
+    public $type;   //comment
+    public $n_id;
     
     public function __construct($data=[])
     {
@@ -31,7 +31,8 @@ class CommantNotification implements ShouldBroadcast
         $this->post_id=$data['post_id'];
         $this->user=$data['user'];
         $this->type=$data['type'];
-        $this->created_at=$data['created_at'];
+        $this->n_id=$data['n_id'];
+
     
     }
 

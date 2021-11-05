@@ -24,13 +24,13 @@
 										<div class="job-listing-details">
 
 											<!-- Logo -->
-											<a href="#" class="job-listing-company-logo">
+											<a href="{{route('userprofile',['id' => $u->id])}}" class="job-listing-company-logo">
 												<img src="{{asset('users/'.$u->id.'/images/'.$u->image)}}" alt="">
 											</a>
 
 											<!-- Details -->
 											<div class="job-listing-description">
-												<h3 class="job-listing-title"><a>{{$u->name}}</a></h3>
+												<h3 class="job-listing-title"><a href="{{route('userprofile',['id' => $u->id])}}">{{$u->name}}</a></h3>
 
 												<!-- Job Listing Footer -->
 												<div class="job-listing-footer">

@@ -17,182 +17,7 @@
         <link rel="stylesheet" href={{asset('css/style.css')}}>
         <link rel="stylesheet" href="{{asset('css/colors/blue.css')}}">
 
-        <style>
-
-            @media (max-width: 992px) {
-                .full-page-sidebar .sidebar-container {
-                    padding: 0;
-                }
-            }
-            .full-page-sidebar .sidebar-container {
-                padding: 20px 40px 0
-            }
-            .search-followers {
-                position: relative;
-                cursor: pointer;
-            }
-            .icon-material-outline-search {
-                font-size: 36px;
-                position: absolute;
-                top: 50%;
-                transform: translate(-50%,-50%);
-            }
-            #header .container {
-                display:flex;
-            }
-
-            #header .left {
-                    display: flex;
-                    width: 60%;
-                    align-items: center;
-                }
-            #header .right {
-                display: flex;
-                width: 40%;
-                justify-content: flex-end;
-                align-items: center
-            }
-            @media (max-width: 426px) {
-                #header {
-                    height: 130px !important;
-                }    
-                
-                #header .container {
-                    display: flex;
-                    flex-direction: column;
-                    flex-wrap: wrap;
-                }
-
-                #header .left {
-                    display: flex;
-                    width: 100%;
-                    align-items: center;
-                    height: 60px;
-                    border-bottom: 2px solid;
-                }
-                #header .right {
-                    display: flex;
-                    width: 100%;
-                    padding-top: 15px;
-                    justify-content: space-evenly;
-                }
-                .dashboard-sidebar {
-                    margin-top: 140px !important;
-                }
-            }
-            
-            
-            .header-widget {
-                border-left: none
-            }
-
-            
-            #header .left #logo {
-                width: 320px !important;
-            }
-
-            @media (max-width: 768px) {
-                #header .left #logo {
-                    width: 123px !important;
-                }
-            }
-
-            @media (max-width: 426px) {
-                #header .left #logo {
-                    width: 75% !important;
-                }
-            }
-
-
-            #logo a {
-                height: 100%;
-                width: 100%;
-                display: inline-block;
-            }
-
-            
-            .user-avatar {
-                border:5px solid #ccc;
-            }
-            .user-avatar::after {
-                display: none
-            }
-            .user-name {
-                font-weight: 500;
-                color: #333;
-                line-height: 20px;
-                padding: 11px 0 0 15px; 
-            }
-
-            @media (max-width: 768px)
-            {
-                .user-menu .header-notifications-dropdown, .header-notifications-dropdown {
-                    width: calc(100vw - 45px);
-                    right: 22px;
-                    top: calc(100% + 15px);
-                }
-            }
-
-           
-            @media (min-width: 767px)
-            {
-                .sidebar {
-                    margin-top: 100px
-                }
-            }
-
-            
-            @media (max-width:992px) {
-                .full-page-content-inner {
-                    margin-top:0;
-                }
-            }
-            .full-page-container {
-                padding-top : 76px;
-            }
-            @media (max-width:426px) {
-                .full-page-container {
-                    padding-top: 115px;
-                }
-            }
-            .sidebar-search-button-container {
-                position : relative
-            }
-
-            .bookmark-icon:hover {
-                background-color: green;
-                color: #fff;
-            }
-
-            .bookmark-icon:before {
-                top: 2px;
-                content: "\002B";
-                font-size: 36px;
-                font-weight: bold;
-            }
-
-            .full-page-sidebar .full-page-sidebar-inner {
-                overflow: hidden;
-                height: 100%;
-            }
-            .full-page-content-inner {
-                position: relative;
-            }
-            .full-page-content-inner .small-footer {
-                width: 100%;
-                left: 0px;
-                padding: 25px 50px;
-                position: absolute;
-                bottom: 0;
-            }
-            @media (max-width: 768px) {
-                .full-page-sidebar-inner, .full-page-content-container,
-                 .full-page-container .full-page-sidebar { 
-                    height: auto !important
-                 }
-
-            }
-        </style>
+        @include('Common.styles')
         @stack('css')
     </head>
     <body>
@@ -220,11 +45,13 @@
                             
                 </div>
             </div>
-            <div class="footer-bottom-section">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            © 2021 <strong>{{cpnfig('app.name','Blogs')}}</strong>. All Rights Reserved.
+            <div id="footer">
+                <div class="footer-bottom-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                © 2021 <strong>{{config('app.name','Blogs')}}</strong>. All Rights Reserved.
+                            </div>
                         </div>
                     </div>
                 </div>

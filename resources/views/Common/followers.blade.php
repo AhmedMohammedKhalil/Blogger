@@ -28,11 +28,11 @@
 
                                         <!-- Avatar -->
                                         <div class="freelancer-avatar">
-                                            <a href="#"><img src="{{asset('users/'.$follower[0]->id.'/images/'.$follower[0]->image)}}" alt="profile_picture"></a>
+                                            <a href="{{route('userprofile',['id' => $follower[0]->id])}}"><img src="{{asset('users/'.$follower[0]->id.'/images/'.$follower[0]->image)}}" alt="profile_picture"></a>
                                         </div>
                                         <!-- Name -->
                                         <div class="freelancer-name">
-                                            <h4><a href="#">{{$follower[0]->name}}</a></h4>
+                                            <h4><a href="{{route('userprofile',['id' => $follower[0]->id])}}">{{$follower[0]->name}}</a></h4>
                                         </div>
                                     </div>
                                 </div>

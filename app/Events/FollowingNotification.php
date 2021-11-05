@@ -22,15 +22,16 @@ class FollowingNotification  implements ShouldBroadcast
     public $following_id;
     public $user;
     public $type;    //follow_request
-    public $created_at;
+    public $n_id;
+
     
     public function __construct($data=[])
     {
         $this->following_id=$data['following_id'];
         $this->user=$data['user'];
         $this->type=$data['type'];
-        $this->created_at=$data['created_at'];
-    
+        $this->n_id=$data['n_id'];
+
     }
 
     /**

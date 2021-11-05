@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory;
 
     protected $with = ['followings','posts'];
     /**
@@ -64,6 +63,19 @@ class User extends Authenticatable
     public function followings()
     {
         return $this->hasMany('App\Models\Follower');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany('App\Models\Notification');
+    }
+
+    public function unreadNotification() {
+        return $this->notifications()->whereNull('read_at')->get();
+    }
+
+    public function latestNotification() {
+        return $this->notifications()->latest();
     }
 
     public function scopeAuther($query)

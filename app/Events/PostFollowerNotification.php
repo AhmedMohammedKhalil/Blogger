@@ -19,19 +19,20 @@ class PostFollowerNotification  implements ShouldBroadcast
      *
      * @return void
      */
-    public $followers_ids;
-    public $user_id;
-    public $post;
+    public $follower_id;
+    public $user;
+    public $post_id;
     public $type;    //post_followers
-    public $created_at;
-    
+    public $n_id;
+
     public function __construct($data=[])
     {
-        $this->followers_ids=$data['followers_ids'];
-        $this->user_id=$data['user_id'];
-        $this->post=$data['post'];
+        $this->follower_id=$data['follower_id'];
+        $this->user=$data['user'];
+        $this->post_id=$data['post_id'];
         $this->type=$data['type'];
-        $this->created_at=$data['created_at'];
+        $this->n_id=$data['n_id'];
+
     
     }
 
@@ -42,9 +43,7 @@ class PostFollowerNotification  implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        foreach ($this->followers_ids as $f) {
-            return new Channel('follow-'.$f);   //follow-id
-        }
+            return new Channel('post-follower-'.$this->follower_id);   //follow-id
       
     }
     public function broadcastAs()

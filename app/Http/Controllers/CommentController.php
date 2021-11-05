@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentNotification;
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\Reaction;
 use App\Models\View;
@@ -35,6 +37,27 @@ class CommentController extends Controller
             }
         }
         $vcount = Post::find($request->post_id)->views->count();
+
+        $notify = new Notification();
+        $notify->user_id = $post_owner_id;
+        $notify->type = 'comment';
+        $array = [
+            'user' => Auth::user(),
+            'comment' => $comment
+        ];
+        $notify->data = json_encode($array);
+        $notify->save();
+
+        $data = [
+            'n_id' => $notify->id,
+            'owner_id' => $post_owner_id,
+            'post_id' => $request->post_id,
+            'type' => 'comment',
+            'user' => Auth::user(),
+            //'created_at' => $comment->created_at->diffForHumans()
+        ];
+        broadcast(new CommentNotification($data))->toOthers();
+
         $view = view('Common.comments',compact('comment','user'))->render();
         return response()->json(['html'=>$view,'ccounter'=>$commcount,'vcounter' => $vcount]);
 
