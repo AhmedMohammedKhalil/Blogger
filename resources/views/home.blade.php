@@ -47,8 +47,8 @@
 
 @section('sidebar')
     <div class="sidebar-container">
-        <form id="searching" method="GET" action="{{route('searching')}}">
-            @csrf
+        <form id="search"  action="javascript:void(0)">
+           
             <!-- Location -->
             <div class="sidebar-widget">
                 <h3>Search</h3>
@@ -192,8 +192,9 @@
 @push('js')
     <script>
         
-        $('#searching').submit((e) => {
+        $('#search').submit((e) => {
             e.preventDefault();
+            var user=$('#user').val();
             axios.post('{{route('search-post')}}',{'username' : user})
             .then((res) => {
                 console.log(res);

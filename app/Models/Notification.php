@@ -14,6 +14,8 @@ class Notification extends Model
      *
      * @var string[]
      */
+    protected $id;
+    
     protected $fillable = [
         'user_id','data','read_at', 'type',
     ];

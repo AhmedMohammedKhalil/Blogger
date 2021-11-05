@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,32 +32,22 @@ class HomeController extends Controller
     }
 
     public function search(Request $r) {
+        $user_name = $r->username;    
         $data = [];
-        
-        // $posts = [];
-        // $flag = true;
-        // foreach ($data as $d) {
-        //     if(count($d) > 0 ) {
-        //         $flag = true;
-        //         foreach ($d as $p) {
-        //             foreach($posts as $post) {
-        //                 if($p->id == $post->id) {
-        //                     $flag = false;
-        //                     break;
-        //                 }
-        //             }
-        //             if($flag == true)
-        //                 array_push($posts,$p);
-        //         }
+        $target_users=User::where('name','like','%'.$user_name.'%')->get();
+        foreach ($target_users as $user) {
+            if($user->count() > 0 ) {
                 
-
-        //     }
-        //}
-
-        //return response()->json(['data' => $posts]);
-        // $posts = Post::with('user','comments','media',','reactions','views')->latest()->get();
-        //$view = view('Common.Posts-comments',compact('posts'))->render();
-        //return response()->json(['html' => $view]);
+                    foreach($user->posts as $post) {
+                        array_push($data,$post);
+                    }
+                
+            }
+        }
+        $posts = array_reverse($data);
+            $view = view('Common.Posts-comments',compact('posts'))->render();
+            return response()->json(['html' => $view]);
+        
     }
 
     public function readAllNotification () {

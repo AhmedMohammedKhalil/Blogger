@@ -2,8 +2,7 @@
 @section('title','Search - ')
 @section('sidebar')
     <div class="sidebar-container">
-        <form id="searching" method="GET" action="{{route('searching')}}">
-            @csrf
+        <form id="searching" action="javascript:void(0)">
             <!-- Location -->
             <div class="sidebar-widget">
                 <h3>Search</h3>
@@ -42,7 +41,7 @@
 @push('js')
     <script>
         $('.follow').click(function(e){
-            e.prventDefault;
+            e.prventDefault();
             var id = $(e.currentTarget).attr('id');
             axios.post('{{route('follow')}}',{'id':id})
             .then((res) => {
@@ -50,11 +49,12 @@
                 $('#f_'+id).remove();
             })
         })
-
+         
+        var unfollowers = @json($unfollowers) ;
         $('#searching').submit((e) => {
             e.preventDefault();
             var user = $('#user').val();
-            axios.post('{{route('searching')}}',{'username' : user})
+            axios.post('{{route('searching')}}',{'username' : user ,'unfollowers':unfollowers})
             .then((res) => {
                 console.log(res);
                 $('.followrs > *').remove();
