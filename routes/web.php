@@ -27,7 +27,7 @@ Route::post('register','Auth\RegisterController@createUser')->name('register');
 Route::post('login','Auth\LoginController@login')->name('login');
 Route::post('reset-password','Auth\LoginController@changePassword')->name('reset-password');
 route::get('/event',function() {
-    event(new PostNotification());
+    
 });
 
 
@@ -40,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('searching','SearchController@search')->name('searching');
     Route::post('upload','PostController@upload')->name('upload');
     Route::post('deletefiles','PostController@deleteFiles')->name('delete-files');
-    Route::post('getfiles','PostController@getFiles')->name('getfiles');
+    Route::get('getfiles','PostController@getFiles')->name('getfiles');
     Route::post('create-post', 'PostController@store')->name('create-post');
     Route::post('comment/create','CommentController@store')->name('create-comment');
     Route::post('updatecomment','CommentController@update')->name('update-comment');
@@ -50,7 +50,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('readAllNotification','HomeController@readAllNotification')->name('readAllNotification');
 
     Route::post('deletepost','PostController@destroy')->name('delete-post');
-    Route::post('editpost','PostController@edit')->name('edit-post');
+    Route::get('editpost','PostController@edit')->name('edit-post');
+    Route::post('updatepost','PostController@update')->name('update-post');
+
     Route::get('/download/{id}','MediaController@download')->name('download');
     Route::get('userprofile','ProfileController@userprofile')->name('userprofile');
     Route::get('showpost','PostController@show')->name('showpost');

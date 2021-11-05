@@ -256,7 +256,7 @@
                       </div>
                       @if ($post->user_id == Auth::user()->id)
                         <ul class="menu flex list-unstyled">
-                            <li><a href="javascript:void(0)" class="edit-post d-none" id="ep-{{$post->id}}"><i style="color: green"class="icon-line-awesome-edit"></i></a></li>
+                            <li><a href="{{route('edit-post',['post_id' => $post->id])}}" class="edit-post" id="ep-{{$post->id}}"><i style="color: green"class="icon-line-awesome-edit"></i></a></li>
                             <li><a href="javascript:void(0)" class="delete-post" id="dp-{{$post->id}}"><i style="color: darkred" class="icon-material-outline-delete"></i></a></li>
                         </ul>
                       @endif
