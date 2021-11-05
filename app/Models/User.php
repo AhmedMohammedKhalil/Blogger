@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     public function views()
     {
-        return $this->hasMany('App\Models\View');
+        return $this->hasMany('App\Models\View','by');
     }
 
     public function followings()
