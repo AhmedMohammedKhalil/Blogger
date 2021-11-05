@@ -30,27 +30,30 @@ class ReactionController extends Controller
                 $reaction->reactionable_type=$request->reactionable_type;
                 $reaction->save();
                 $flag = 1 ;
-
                 $user_id = Post::find($post_id)->user_id;
-                $notify = new Notification();
-                $notify->user_id = $user_id;
-                $notify->type = 'reaction';
-                $array = [
-                    'user' => Auth::user(),
-                    'reaction' => $reaction
-                ];
-                $notify->data = json_encode($array);
-                $notify->save();
+                if($id != $user_id) {
+                    $notify = new Notification();
+                    $notify->user_id = $user_id;
+                    $notify->type = 'reaction';
+                    $array = [
+                        'user' => Auth::user(),
+                        'reaction' => $reaction
+                    ];
+                    $notify->data = json_encode($array);
+                    $notify->save();
 
-                $data = [
-                    'n_id' => $notify->id,
-                    'owner_id' => $user_id,
-                    'post_id' => $request->post_id,
-                    'type' => 'reaction',
-                    'user' => Auth::user(),
-                    //'created_at' => $reaction->created_at->diffForHumans()
-                ];
-                broadcast(new PostNotification($data))->toOthers();
+                    $data = [
+                        'n_id' => $notify->id,
+                        'owner_id' => $user_id,
+                        'post_id' => $request->post_id,
+                        'type' => 'reaction',
+                        'user' => Auth::user(),
+                        //'created_at' => $reaction->created_at->diffForHumans()
+                    ];
+                    broadcast(new PostNotification($data))->toOthers();
+                }
+
+                
             }
             $post = Post::find($post_id);
             $count = count($post->reactions);

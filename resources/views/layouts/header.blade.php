@@ -195,7 +195,7 @@
 		channel.bind('postComment', function(data) {
 			console.log(data);
 			var user = data["user"];
-			var url = '/showpost?post_id='+data.post_id+',n_id='+data.n_id;
+			var url = '/showpost?post_id='+data.post_id+'&n_id='+data.n_id;
 			$('.header-notifications-content ul').prepend(
 				'<li style="background: #c5c5c5;">'+
 					'<a href="'+url+'"> '+
@@ -215,7 +215,7 @@
 		channel.bind('postReact', function(data) {
 			console.log(data);
 			var user = data["user"];
-			var url = '/showpost?post_id='+data.post_id+',n_id='+data.n_id;
+			var url = '/showpost?post_id='+data.post_id+'&n_id='+data.n_id;
 			$('.header-notifications-content ul').prepend(
 				'<li style="background: #c5c5c5;">'+
 					'<a href="'+url+'">' +
@@ -235,7 +235,7 @@
 			console.log(data);
 			var user = data["user"];
 			var userid = user.id
-			var url = '/userprofile?id='+userid+',n_id='+data.n_id
+			var url = '/userprofile?id='+userid+'&n_id='+data.n_id
 			$('.header-notifications-content ul').prepend(
 				'<li style="background: #c5c5c5;">'+
 					'<a href="'+url+'">'+ 
@@ -255,13 +255,13 @@
 		channel.bind('postFollowers', function(data) {
 			console.log(data)
 			var user = data["user"];
-			var url = '/showpost?post_id='+data.post_id+',n_id='+data.n_id;
+			var url = '/showpost?post_id='+data.post_id+'&n_id='+data.n_id;
 			$('.header-notifications-content ul').prepend(
 				'<li style="background: #c5c5c5;">'+
 					'<a href="'+url+'">'+
 						'<span class="notification-icon"><i class="icon-material-outline-filter-none"></i></span>'+
 						'<span class="notification-text">'+
-							'<strong>'+user.name+'</strong>added new Post'+
+							'<strong>'+user.name+'</strong> added new Post'+
 						'</span>'+
 					'</a>'+
 				'</li>'

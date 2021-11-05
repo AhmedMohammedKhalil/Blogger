@@ -87,9 +87,9 @@ class UsersController extends Controller
             if(json_decode($n->data)->user->id == $user->id)
                 $n->delete();
         }
-        
+
         if (is_dir(public_path('users/'.$user->id)) == true) {
-            File::delete(public_path('users/'.$user->id));
+            File::deleteDirectory(public_path('users/'.$user->id));
         }
         $user->delete();
         return redirect(route('admin.user.index'));

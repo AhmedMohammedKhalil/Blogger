@@ -37,8 +37,8 @@
 													<ul>
 														<li><i class="icon-material-outline-email"></i>{{$u->email}}</li>
 														<li><i class="icon-material-outline-assignment"></i>Posts &nbsp {{$u->posts()->count()}}</li>
-														<li><i class="icon-material-outline-person-pin"></i> </li>
-														<li><i class="icon-material-outline-access-time"></i> {{$u->role->name}}</li>
+														<li><i class="icon-material-outline-person-pin"></i>{{$u->role->name}} </li>
+														<li><i class="icon-material-outline-access-time"></i>{{$u->created_at}}</li>
 													</ul>
 												</div>
 											</div>
