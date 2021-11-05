@@ -47,15 +47,17 @@
 
 @section('sidebar')
     <div class="sidebar-container">
-        <form id="searching" method="GET" >
+        <form id="searching" method="GET" action="{{route('searching')}}">
             @csrf
-
-            <!-- Tags -->
-            <div class="sidebar-widget mb-0" >
-                <h3>Tags</h3>
-                <select name="tags[]" id="inputTags" multiple="multiple" style="height: 350px">
-                    @include('Common.tags')
-                </select>
+            <!-- Location -->
+            <div class="sidebar-widget">
+                <h3>Search</h3>
+                <div class="input-with-icon">
+                    <div id="autocomplete-container">
+                        <input id="user" name="user" type="text" placeholder="Search">
+                    </div>
+                    <i class="icon-material-outline-search"></i>
+                </div>
             </div>
 
             <div class="clearfix"></div>
@@ -68,7 +70,6 @@
     <div class="sidebar-search-button-container">
         <button type="submit" form="searching" class="button ripple-effect">Search</button>
     </div>
-    <!-- Search Button / End-->
 @endsection
 
 
@@ -88,20 +89,6 @@
                     <div class="col-xl-12">
                         <div class="submit-field">
                         <textarea cols="30" rows="1" name="text" id="textpost" class="with-border" placeholder="What's on your mind, {{Auth::user()->name}} ?"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-xl-12">
-                        <div class="submit-field">
-                            <h5>What Tags You Need?</h5>
-                            <div class="keywords-container">
-                                <div class="keyword-input-container">
-                                    <input type="text" name ="tags" class="keyword-input with-border" placeholder="Add Tags">
-                                    <button type="button" class="keyword-input-button ripple-effect"><i class="icon-material-outline-add"></i></button>
-                                </div>
-                                <div class="keywords-list" style="height: auto;"><!-- keywords go here --></div>
-                                <div class="clearfix"></div>
-                            </div>
-
                         </div>
                     </div>
                     <div class="col-xl-12">
@@ -207,13 +194,7 @@
         
         $('#searching').submit((e) => {
             e.preventDefault();
-            var tags=[];
-            var $el=$("#inputTags");
-            $el.find('option:selected').each(function(){
-                tags.push($(this).val());
-            });
-            console.log(tags)
-            axios.post('{{route('search-post')}}',{'tags':tags})
+            axios.post('{{route('search-post')}}',{'username' : user})
             .then((res) => {
                 console.log(res);
                 $('.posts-comments > *').remove();
@@ -227,11 +208,8 @@
          $('#modal-add-post').on('show.bs.modal', (e) =>{
             $(e.target).find('input.is-invalid').removeClass('is-invalid');
             $(e.target).find('span.invalid-feedback#text').remove();
-            $(e.target).find('span.invalid-feedback#tags').remove();
             $(e.target).find('span.invalid-feedback > strong').html('');
             $(e.target).find('input').val('');
-            $(e.target).find('.keyword').remove();
-            $(e.target).find('.keywords-list').css('height','auto');
             $(e.target).find('textarea').val('');
             $("#dropzone-images > .dz-preview").remove();
             $("#dropzone-files > .dz-preview").remove();
@@ -246,14 +224,7 @@
 
         })
 
-        $('input[name=tags]').on('click',(e) => {
-            if($('input[name=tags]').hasClass('is-invalid')) {
-                $('input[name=tags]').removeClass('is-invalid');
-                $('span.invalid-feedback#tags').remove();
-
-            }
-            
-        })
+        
         $('textarea[name=text]').on('click',(e) => {
             if( $('textarea[name=text]').hasClass('is-invalid')) {
                 $('textarea[name=text]').removeClass('is-invalid');
@@ -279,11 +250,7 @@
             e.preventDefault();
             var text = $('#textpost').val();
             console.log(type);
-            var tags = [];
-            $.each($('.keyword-text'), function(index , element){
-                tags.push($(element).text());
-            })
-            axios.post('{{route('create-post')}}',{'tags':tags,'text':text,'type':type}) 
+            axios.post('{{route('create-post')}}',{'text':text,'type':type}) 
             .then((res) => {
                 console.log(res)
                 var errors = res.data.errors;
@@ -297,9 +264,6 @@
                                 '</span>'
                         );
                     }
-                    if(errors[0].tags){
-                        messageError('tags',errors[0].tags[0]);
-                    }
                     if(errors.media){
                         $("#media").css('color','#E74C3C');
                         $(".invalid-feedback#media").css('display','block');
@@ -309,8 +273,6 @@
                     $('#modal-add-post').modal('hide');
                     $('.modal-backdrop').hide();
                     $('.posts-comments').prepend(res.data.html);
-                    $('#inputTags >*').remove();
-                    $('#inputTags').append(res.data.tagshtml)
                 }
             })
         })

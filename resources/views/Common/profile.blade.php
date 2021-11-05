@@ -50,20 +50,6 @@
                     </div>
                 </div>
                 <div class="col-xl-12">
-                    <div class="submit-field">
-                        <h5>What Tags You Need?</h5>
-                        <div class="keywords-container">
-                            <div class="keyword-input-container">
-                                <input type="text" name ="tags" class="keyword-input with-border" placeholder="Add Tags">
-                                <button type="button" class="keyword-input-button ripple-effect"><i class="icon-material-outline-add"></i></button>
-                            </div>
-                            <div class="keywords-list" style="height: auto;"><!-- keywords go here --></div>
-                            <div class="clearfix"></div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-xl-12">
                     <div class="submit-field ">
                         <h5>Choose Attachment Type?</h5>
                         <div class="feedback-yes-no margin-top-0" style="text-align: center">
@@ -150,11 +136,8 @@
          $('#modal-add-post').on('show.bs.modal', (e) =>{
             $(e.target).find('input.is-invalid').removeClass('is-invalid');
             $(e.target).find('span.invalid-feedback#text').remove();
-            $(e.target).find('span.invalid-feedback#tags').remove();
             $(e.target).find('span.invalid-feedback > strong').html('');
             $(e.target).find('input').val('');
-            $(e.target).find('.keyword').remove();
-            $(e.target).find('.keywords-list').css('height','auto');
             $(e.target).find('textarea').val('');
             $("#dropzone-images > .dz-preview").remove();
             $("#dropzone-files > .dz-preview").remove();
@@ -167,14 +150,6 @@
             arr = [];
             arr1 = [];
 
-        })
-        $('input[name=tags]').on('click',(e) => {
-            if($('input[name=tags]').hasClass('is-invalid')) {
-                $('input[name=tags]').removeClass('is-invalid');
-                $('span.invalid-feedback#tags').remove();
-
-            }
-            
         })
         $('textarea[name=text]').on('click',(e) => {
             if( $('textarea[name=text]').hasClass('is-invalid')) {
@@ -198,11 +173,8 @@
             e.preventDefault();
             var text = $('#textpost').val();
             console.log(type);
-            var tags = [];
-            $.each($('.keyword-text'), function(index , element){
-                tags.push($(element).text());
-            })
-            axios.post('{{route('create-post')}}',{'tags':tags,'text':text,'type':type}) 
+        
+            axios.post('{{route('create-post')}}',{'text':text,'type':type}) 
             .then((res) => {
                 console.log(res)
                 var errors = res.data.errors;
@@ -216,9 +188,7 @@
                                 '</span>'
                         );
                     }
-                    if(errors[0].tags[0]){
-                        messageError('tags',errors[0].tags[0]);
-                    }
+                    
                     if(errors.media){
                         $("#media").css('color','#E74C3C');
                         $(".invalid-feedback#media").css('display','block');

@@ -11,7 +11,6 @@
 @section('sidebar')
     <ul  data-submenu-title="System">
         <li class="{{Request::is('*dashboard*') ? 'active' : ''}}"><a href="{{route('admin.dashboard')}}"><i class="icon-material-outline-dashboard"></i> dashboard</a></li>
-        <li class="{{Request::is('admin/tag*') ? 'active' : ''}}"><a href="{{route('admin.tags.index')}}"><i class="icon-material-outline-dashboard"></i> Tags</a></li>
         <li class="{{Request::is('admin/user*') ? 'active' : ''}}"><a href="{{route('admin.user.index')}}"><i class="icon-material-outline-dashboard"></i> Users</a></li>
 
     </ul>
