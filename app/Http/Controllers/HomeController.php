@@ -26,43 +26,37 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index() {
-        $tags = Tag::all();
-        $posts = Post::with('user','comments','media','tags','reactions','views')->latest()->get();
-        return view('home',compact('posts','tags'));
+        $posts = Post::with('user','comments','media','reactions','views')->latest()->get();
+        return view('home',compact('posts'));
     }
 
     public function search(Request $r) {
         $data = [];
-        if($r->tags != null) {
-            foreach($r->tags as $tagId) {
-                $tag = Tag::find($tagId);
-                array_push($data,$tag->posts);
-            }
-        }
-        $posts = [];
-        $flag = true;
-        foreach ($data as $d) {
-            if(count($d) > 0 ) {
-                $flag = true;
-                foreach ($d as $p) {
-                    foreach($posts as $post) {
-                        if($p->id == $post->id) {
-                            $flag = false;
-                            break;
-                        }
-                    }
-                    if($flag == true)
-                        array_push($posts,$p);
-                }
+        
+        // $posts = [];
+        // $flag = true;
+        // foreach ($data as $d) {
+        //     if(count($d) > 0 ) {
+        //         $flag = true;
+        //         foreach ($d as $p) {
+        //             foreach($posts as $post) {
+        //                 if($p->id == $post->id) {
+        //                     $flag = false;
+        //                     break;
+        //                 }
+        //             }
+        //             if($flag == true)
+        //                 array_push($posts,$p);
+        //         }
                 
 
-            }
-        }
+        //     }
+        //}
 
         //return response()->json(['data' => $posts]);
-        // $posts = Post::with('user','comments','media','tags','reactions','views')->latest()->get();
-        $view = view('Common.Posts-comments',compact('posts'))->render();
-        return response()->json(['html' => $view]);
+        // $posts = Post::with('user','comments','media',','reactions','views')->latest()->get();
+        //$view = view('Common.Posts-comments',compact('posts'))->render();
+        //return response()->json(['html' => $view]);
     }
 
     public function readAllNotification () {

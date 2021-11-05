@@ -15,17 +15,6 @@
                 </div>
             </div>
 
-            <!-- Tags -->
-            <div class="sidebar-widget mb-0" >
-                <h3>Tags</h3>
-                <select name="tags[]" id="inputTags" multiple="multiple" style="height: 250px">
-                    @foreach ($tags as $tag)
-                        <option value="{{$tag->id}}">{{$tag->name}}</option>
-                    @endforeach
-
-                </select>
-            </div>
-
             <div class="clearfix"></div>
 
             <div class="margin-bottom-40"></div>
@@ -65,13 +54,7 @@
         $('#searching').submit((e) => {
             e.preventDefault();
             var user = $('#user').val();
-            var tags=[];
-            var $el=$("#inputTags");
-            $el.find('option:selected').each(function(){
-                tags.push($(this).val());
-            });
-            console.log(tags)
-            axios.post('{{route('searching')}}',{'tags':tags,'username' : user})
+            axios.post('{{route('searching')}}',{'username' : user})
             .then((res) => {
                 console.log(res);
                 $('.followrs > *').remove();

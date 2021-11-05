@@ -383,13 +383,7 @@
         background-color: black;
         margin-top: 10px;
     }
-    .tag {
-        border-radius: 10px;
-        padding: 5px;
-        background: #5590fb;
-        color: black;
-        margin-right: 10px;
-    }
+    
     .card-footer .media-detail li a {
         font-size: 18px;
         text-decoration: none;

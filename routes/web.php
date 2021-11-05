@@ -70,9 +70,6 @@ Route::group(['as'=>'admin.','prefix'=>'admin','middleware'=>['auth','admin']], 
     Route::get('user','Admin\UsersController@index')->name('user.index');
     Route::get('user/delete/{id}','Admin\UsersController@destroy')->name('user.delete');
 
-    Route::get('tags','TagController@index')->name('tags.index');
-    Route::get('tags/delete/{id}','TagController@destroy')->name('tags.delete');
-
  /*   
     Route::get('settings','Admin\SettingsController@index')->name('settings');
 /*

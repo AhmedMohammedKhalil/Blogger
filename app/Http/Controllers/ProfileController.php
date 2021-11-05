@@ -22,7 +22,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $posts = $user->posts()->with('user','comments','media','tags','reactions','views')->latest()->get();
+        $posts = $user->posts()->with('user','comments','media','reactions','views')->latest()->get();
         if($user->role->id == "1")
             return view('admin.profile',compact('posts'));
         else
@@ -44,7 +44,7 @@ class ProfileController extends Controller
             ['user_id', Auth::user()->id],
             ['following_id',$user->id]
         ])->first();
-        $posts = $user->posts()->with('user','comments','media','tags','reactions','views')->latest()->get();
+        $posts = $user->posts()->with('user','comments','media','reactions','views')->latest()->get();
         return view('Common.guestprofile',compact('user','posts','following'));
     }
 }

@@ -15,7 +15,6 @@ use GuzzleHttp\Psr7\UploadedFile;
 use App\Models\Media;
 use App\Models\Notification;
 use App\Models\Reaction;
-use App\Models\Tag;
 use App\Models\View;
 use Carbon\Carbon;
 
@@ -52,8 +51,7 @@ class PostController extends Controller
     public function store (Request $r) {
         $images = [];
         $Validator = Validator::make($r->all(),[
-            'text' => 'required',
-            'tags' => 'required'
+            'text' => 'required'
         ]);
 
         if($r->type != "text") {
@@ -101,17 +99,7 @@ class PostController extends Controller
         $post->save();
         $postId = $post->id;
 
-        foreach($r->tags as $tag) {
-            $record = Tag::where('name',$tag)->first();
-            if($record) {
-                $post->tags()->attach($record->id);
-            } else {
-                $newtag = new Tag();
-                $newtag->name = $tag;
-                $newtag->save();
-                $post->tags()->attach($newtag->id);
-            }
-        }
+        
 
 
 
@@ -206,12 +194,10 @@ class PostController extends Controller
             broadcast(new PostFollowerNotification($data))->toOthers();
         }
 
-        $tags = Tag::all();
         $posts = Post::where('id',$postId)->get();
         $view = view('Common.Posts-comments',compact('posts'))->render();
-        $viewtags = view('Common.tags',compact('tags'))->render();
 
-        return response()->json(['html' => $view,'tagshtml' => $viewtags]);
+        return response()->json(['html' => $view]);
 
     }
 
@@ -221,7 +207,6 @@ class PostController extends Controller
     {
         if($request->ajax()) {
             $post = Post::find($request->post_id);
-            $post->tags()->detach();
             foreach($post->reactions as $r) {
                 $reaction = Reaction::find($r->id);
                 $reaction->delete();
@@ -245,16 +230,8 @@ class PostController extends Controller
             File::DeleteDirectory(public_path('users/'.Auth::user()->id.'/posts/'.$post->id));
             //File::delete(public_path('users/'.Auth::user()->id.'/posts/'.$post->id));
             $post->delete();
-            $tags = Tag::all();
-            foreach($tags as $tag) {
-                if($tag->posts()->count() == 0)
-                {
-                    $tag->delete();
-                }
-            }
-            $tags = Tag::all();
-            $viewtags = view('Common.tags',compact('tags'))->render();
-            return response()->json(['post_id' => $post->id,'tagshtml' => $viewtags]);
+            
+            return response()->json(['post_id' => $post->id]);
         }
         
     }
