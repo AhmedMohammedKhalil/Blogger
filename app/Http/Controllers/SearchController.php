@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Follower;
-use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,80 +36,37 @@ class SearchController extends Controller
                 array_push($unfollowers,[$u,$fCount]);
             } 
         }
-        $tags = Tag::all();
         //dd($unfollowers);
-        return view ('search',compact('unfollowers','tags'));
+        return view ('search',compact('unfollowers'));
     } 
     
     public function search(Request $r) 
-    {       
+    {   
+        $unf_req=$r->unfollowers;    
+        $user_name = $r->username;  
+        $array=[];
+        $unf=[];
         $data = [];
-        $users = [];
-        if($r->tags != null) {
-            foreach($r->tags as $tagId) {
-                $tag = Tag::find($tagId);
-                array_push($data,$tag->posts);
-            }
-            $posts = [];
-            $flag = true;
-            foreach ($data as $d) {
-                if(count($d) > 0 ) {
-                    $flag = true;
-                    foreach ($d as $p) {
-                        foreach($posts as $post) {
-                            if($p->user_id == $post->user_id) {
-                                $flag = false;
-                                break;
-                            }
-                        }
-                        if($flag == true)
-                            array_push($posts,$p);
-                    }
-                    
+        // if(Auth::user()->followings->count()>0){
+        //     foreach (Auth::user()->followings as $f) {
+        //         array_push($array,$f->id);
+        //     }
+        // }  
+        $target_users=User::where('name','like','%'.$user_name.'%')->get();
+            if($target_users->count() > 0 ) {
 
-                }
-            }
-            foreach($posts as $post) {
-                if($post->user_id != Auth::user()->id) {
-                    $flag = true;
-                    foreach(Auth::user()->followings as $f) {
-                        if($f->id == $post->user_id) {
-                            $flag = false;
-                            break;
-                        }
-                    }
-                    if($flag == true)
-                        array_push($users,User::find($post->user_id));
-                }
-            }
-        }
-        if($r->tags == null) {
-            if($r->username != null && $r->username != Auth::user()->name) {
-                $search = User::where('name','like','%'.$r->username.'%')
-                        ->where('name','!=',Auth::user()->name)->get();
-                
-                if(count($search) > 0) {
-                    $flag = true;
-                    foreach ($search as $s) {
-                        foreach(Auth::user()->followings as $f) {
-                            if($s->id == $f->id)
-                            {
-                                $flag = false;
-                                break;
-                            }
-                        }
-                        if($flag == true)
-                            array_push($users,$s);
-                    }
-                }
-    
-            }
-        }
-        
-        $unfollowers = $users;
-        return response()->json(['foll' => $unfollowers]);
+                foreach($target_users as $user) {
+                    foreach( $unf_req as $u_r) {
+                        if($user->id == $u_r[0]['id'])
+                            array_push($data, $u_r);
 
-        $view = view('Common.searchfollowers',compact('unfollowers'))->render();
+                    }
+                }
+                $unfollowers = $data;
+
+            } 
+
+        $view = view('Common.search',compact('unfollowers'))->render();
         return response()->json(['html' => $view]);
         
     } 

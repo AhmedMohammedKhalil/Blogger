@@ -37,26 +37,53 @@ class CommentController extends Controller
             }
         }
         $vcount = Post::find($request->post_id)->views->count();
+        if(Auth::user()->id != $post_owner_id) {
+            $notify = new Notification();
+            $notify->user_id = $post_owner_id;
+            $notify->type = 'comment';
+            $array = [
+                'user' => Auth::user(),
+                'comment' => $comment
+            ];
+            $notify->data = json_encode($array);
+            $notify->save();
+    
+            $data = [
+                'n_id' => $notify->id,
+                'owner_id' => $post_owner_id,
+                'post_id' => $request->post_id,
+                'type' => 'comment',
+                'user' => Auth::user(),
+                //'created_at' => $comment->created_at->diffForHumans()
+            ];
+            broadcast(new CommentNotification($data))->toOthers();
+        } else {
+            foreach(Post::find($request->post_id)->comments as $c) {
+                if($c->user_id != $post_owner_id) {
+                    $notify = new Notification();
+                    $notify->user_id = $c->user_id;
+                    $notify->type = 'comment';
+                    $array = [
+                        'user' => Auth::user(),
+                        'comment' => $c
+                    ];
+                    $notify->data = json_encode($array);
+                    $notify->save();
+            
+                    $data = [
+                        'n_id' => $notify->id,
+                        'owner_id' => $c->user_id,
+                        'post_id' => $request->post_id,
+                        'type' => 'comment',
+                        'user' => Auth::user(),
+                        //'created_at' => $comment->created_at->diffForHumans()
+                    ];
+                    broadcast(new CommentNotification($data))->toOthers();
+                }
 
-        $notify = new Notification();
-        $notify->user_id = $post_owner_id;
-        $notify->type = 'comment';
-        $array = [
-            'user' => Auth::user(),
-            'comment' => $comment
-        ];
-        $notify->data = json_encode($array);
-        $notify->save();
-
-        $data = [
-            'n_id' => $notify->id,
-            'owner_id' => $post_owner_id,
-            'post_id' => $request->post_id,
-            'type' => 'comment',
-            'user' => Auth::user(),
-            //'created_at' => $comment->created_at->diffForHumans()
-        ];
-        broadcast(new CommentNotification($data))->toOthers();
+            }
+        }
+       
 
         $view = view('Common.comments',compact('comment','user'))->render();
         return response()->json(['html'=>$view,'ccounter'=>$commcount,'vcounter' => $vcount]);

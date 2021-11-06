@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    //protected $with = ['user','tags','reactions','comments','media','views'];
+    //protected $with = ['user','reactions','comments','media','views'];
 
     protected $fillable = [
         'user_id','content','type'
@@ -19,10 +19,6 @@ class Post extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function tags()
-    {
-        return $this->belongsToMany('App\Models\Tag')->withTimestamps();
-    }
 
     public function reactions()
     {

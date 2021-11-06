@@ -2,8 +2,7 @@
 @section('title','Search - ')
 @section('sidebar')
     <div class="sidebar-container">
-        <form id="searching" method="GET" action="{{route('searching')}}">
-            @csrf
+        <form id="searching" action="javascript:void(0)">
             <!-- Location -->
             <div class="sidebar-widget">
                 <h3>Search</h3>
@@ -13,17 +12,6 @@
                     </div>
                     <i class="icon-material-outline-search"></i>
                 </div>
-            </div>
-
-            <!-- Tags -->
-            <div class="sidebar-widget mb-0" >
-                <h3>Tags</h3>
-                <select name="tags[]" id="inputTags" multiple="multiple" style="height: 250px">
-                    @foreach ($tags as $tag)
-                        <option value="{{$tag->id}}">{{$tag->name}}</option>
-                    @endforeach
-
-                </select>
             </div>
 
             <div class="clearfix"></div>
@@ -53,7 +41,7 @@
 @push('js')
     <script>
         $('.follow').click(function(e){
-            e.prventDefault;
+            e.prventDefault();
             var id = $(e.currentTarget).attr('id');
             axios.post('{{route('follow')}}',{'id':id})
             .then((res) => {
@@ -61,17 +49,12 @@
                 $('#f_'+id).remove();
             })
         })
-
+         
+        var unfollowers = @json($unfollowers) ;
         $('#searching').submit((e) => {
             e.preventDefault();
             var user = $('#user').val();
-            var tags=[];
-            var $el=$("#inputTags");
-            $el.find('option:selected').each(function(){
-                tags.push($(this).val());
-            });
-            console.log(tags)
-            axios.post('{{route('searching')}}',{'tags':tags,'username' : user})
+            axios.post('{{route('searching')}}',{'username' : user ,'unfollowers':unfollowers})
             .then((res) => {
                 console.log(res);
                 $('.followrs > *').remove();

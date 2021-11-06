@@ -25,6 +25,7 @@
 					</div>
 					<div class="fun-fact-icon"><i class="icon-material-outline-business-center"></i></div>
 				</div>
+
 				<div class="fun-fact" data-fun-fact-color="#efa80f">
 					<div class="fun-fact-text">
 						<span>Comments</span>
@@ -33,7 +34,13 @@
 					<div class="fun-fact-icon"><i class="icon-material-outline-rate-review"></i></div>
 				</div>
 
-
+				<div class="fun-fact" data-fun-fact-color="#efa80f">
+					<div class="fun-fact-text">
+						<span>Media</span>
+						<h4>{{$media}}</h4>
+					</div>
+					<div class="fun-fact-icon"><i class="icon-material-outline-broken-image"></i></div>
+				</div>
 			</div>
 			
 

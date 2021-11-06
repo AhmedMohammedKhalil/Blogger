@@ -210,13 +210,7 @@
             background-color: black;
             margin-top: 10px;
         }
-        .tag {
-            border-radius: 10px;
-            padding: 5px;
-            background: #5590fb;
-            color: black;
-            margin-right: 10px;
-        }
+        
         .card-footer .media-detail li a {
             font-size: 18px;
             text-decoration: none;
@@ -262,7 +256,7 @@
                       </div>
                       @if ($post->user_id == Auth::user()->id)
                         <ul class="menu flex list-unstyled">
-                            <li><a href="javascript:void(0)" class="edit-post d-none" id="ep-{{$post->id}}"><i style="color: green"class="icon-line-awesome-edit"></i></a></li>
+                            <li><a href="{{route('edit-post',['post_id' => $post->id])}}" class="edit-post" id="ep-{{$post->id}}"><i style="color: green"class="icon-line-awesome-edit"></i></a></li>
                             <li><a href="javascript:void(0)" class="delete-post" id="dp-{{$post->id}}"><i style="color: darkred" class="icon-material-outline-delete"></i></a></li>
                         </ul>
                       @endif
@@ -271,11 +265,6 @@
                     <p style="margin-bottom : 2px;">
                         {!!$post->content!!}
                     </p>
-                    <div class="flex" style="justify-content: flex-start">
-                        @foreach ($post->tags as $tag)
-                            <div class="tag">{{$tag->name}}</div>
-                        @endforeach
-                    </div>
                     @if ($post->media()->count() > 0 && $post->type == "images")
                         <div class="images flex text-align-center">
                             @if ($post->media()->count() == 1)
@@ -428,8 +417,6 @@
             axios.post('{{route('delete-post')}}',{'post_id': post_id})
             .then((res) => {
                 $('#p-c-'+post_id).remove();
-                $('#inputTags >*').remove();
-                $('#inputTags').append(res.data.tagshtml)
             })
         })
         
