@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Media;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -31,7 +32,8 @@ class DashboardController extends Controller
         $user_count=User::all()->count();
         $post_count=Post::all()->count();
         $comment_count=Comment::all()->count();
-        $admin=Auth::user()->all();
-        return view('admin.dashboard.index',compact('user_count','post_count','comment_count','admin'));
+        $admin=Auth::user();
+        $media=Media::all()->count();
+        return view('admin.dashboard.index',compact('user_count','post_count','comment_count','admin','media'));
     }
 }
