@@ -45,7 +45,7 @@ class SearchController extends Controller
         $unf_req=$r->unfollowers;    
         $user_name = $r->username;  
         $array=[];
-        $unf=[];
+        $unfollowers=[];
         $data = [];
         // if(Auth::user()->followings->count()>0){
         //     foreach (Auth::user()->followings as $f) {
@@ -64,8 +64,7 @@ class SearchController extends Controller
                 }
                 $unfollowers = $data;
 
-            } 
-
+            }
         $view = view('Common.search',compact('unfollowers'))->render();
         return response()->json(['html' => $view]);
         

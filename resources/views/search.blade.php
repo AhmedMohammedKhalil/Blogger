@@ -40,7 +40,7 @@
 
 @push('js')
     <script>
-        $('.follow').click(function(e){
+        $('body').on('click','.follow',(e) => {
             e.prventDefault();
             var id = $(e.currentTarget).attr('id');
             axios.post('{{route('follow')}}',{'id':id})
