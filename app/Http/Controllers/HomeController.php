@@ -59,8 +59,6 @@ class HomeController extends Controller
             }
         }
 
-        //return response()->json(['data' => $posts]);
-        // $posts = Post::with('user','comments','media','tags','reactions','views')->latest()->get();
         $view = view('Common.Posts-comments',compact('posts'))->render();
         return response()->json(['html' => $view]);
     }
